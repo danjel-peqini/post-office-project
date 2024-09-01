@@ -9,7 +9,7 @@ namespace Domain.Contracts
 {
     public interface IMailService
     {
-        Task SendAsync(MailRequest request);
+       // Task SendAsync(MailRequest request);
              
     }
 }

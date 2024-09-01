@@ -99,7 +99,7 @@ namespace Domain.Concrete
 
             if(currentData.Status == (int)ShipmentStatus.InRoute)
             {
-                EmailService.s
+                
             }
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("CreatedBy", GetUserId().ToString());
