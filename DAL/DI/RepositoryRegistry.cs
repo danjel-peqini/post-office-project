@@ -16,11 +16,13 @@ namespace DAL.DI
             IncludeRegistry<UnitOfWorkRegistry>();
 
             For<IUserRepository>().Use<UserRepository>();
-            For<IShipmentRepository>().Use<ShipmentRepository>();
-            For<IHistoryRepository>().Use<HistoryRepository>();
-            For<IPostOfficeRepository>().Use<PostOfficeRepository>();
-            For<IPackageRepository>().Use<PackageRepository>();
-            For<ITransportRepository>().Use<TransportRepository>();
+            For<IUserTypeRepository>().Use<UserTypeRepository>();
+            For<IDepartmantRepository>().Use<DepartmantRepository>();
+            For<ICourseRepository>().Use<CourseRepository>();
+            //    For<IHistoryRepository>().Use<HistoryRepository>();
+            //    For<IPostOfficeRepository>().Use<PostOfficeRepository>();
+            //    For<IPackageRepository>().Use<PackageRepository>();
+            //    For<ITransportRepository>().Use<TransportRepository>();
         }
 
 

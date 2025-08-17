@@ -24,6 +24,7 @@ namespace DTO.ShipmentDTO
         public ReceiverDetails ReceiverUserDetails { get; set; }
         public Guid? CreatedBy { get; set; }
 
+        public string? DeliverPlace { get; set; }
 
     }
     public class ShipmentPostDTO

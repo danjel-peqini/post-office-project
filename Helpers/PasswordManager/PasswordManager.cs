@@ -29,6 +29,13 @@ namespace Helpers.PasswordManager
 
             return savedPasswordHash;
         }
+        public static string GenerateRandomPassword(int length)
+        {
+            const string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789@$!%*?&";
+            var random = new Random();
+            return new string(Enumerable.Repeat(validChars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
         public static bool VerifyPassword(string enteredPassword, string storedHash)
         {
             // Convert the stored hash back to bytes

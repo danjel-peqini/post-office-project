@@ -14,7 +14,7 @@ namespace DAL.Concrete
     internal class UserRepository : BaseRepository<TblUser, Guid>, IUserRepository
     {
 
-        public UserRepository(PostOfficeDBContext dbContext) : base(dbContext)
+        public UserRepository(SchoolAdministrationContext dbContext) : base(dbContext)
         {
         }
 
@@ -30,6 +30,7 @@ namespace DAL.Concrete
             return PagedList<TblUser>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);
 
         } 
+ 
     }
 
 

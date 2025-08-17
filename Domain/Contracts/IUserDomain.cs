@@ -1,4 +1,5 @@
 ﻿using DTO.UserDTO;
+using DTO.UserTypeDTO;
 using Helpers.Pagination;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,12 @@ namespace Domain.Contracts
         Pagination<UserGetDTO> GetAllUsers(QueryParameters queryParameters);
         UserGetDTO GetUserById(Guid id);
         void AddNewUser(UserPostDTO userPostDTO);
+        void AddNewUserType(UserTypePostDto userTipePostDto);
         void UpdateUserStatus(Guid userId, UserPutDTO userPostDTO);
         string Login(LoginUserDTO loginUserDTO);
         void Logout(string token);
-       
+        UserTypeDTO GetUserTypeById(Guid id);
+        List<UserTypeDTO> GetAllUserTypes();
+
     }
 }

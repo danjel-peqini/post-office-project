@@ -12,9 +12,9 @@ namespace DAL.UoW
     {
         private readonly IContainer _container;
 
-        private readonly PostOfficeDBContext _context;
+        private readonly SchoolAdministrationContext _context;
 
-        public UnitOfWork(IContainer container, PostOfficeDBContext context)
+        public UnitOfWork(IContainer container, SchoolAdministrationContext context)
         {
             _container = container;
             _context = context;

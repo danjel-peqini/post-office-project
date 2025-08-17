@@ -3,22 +3,30 @@ using DAL.Contracts;
 using DAL.UoW;
 using Domain.Contracts;
 using DTO.UserDTO;
+using DTO.UserTypeDTO;
 using Entities.Models;
+using Helpers.Email;
 using Helpers.Pagination;
 using Helpers.PasswordManager;
+using LamarCodeGeneration.Frames;
 using Microsoft.AspNetCore.Http;
 
 namespace Domain.Concrete
 {
     internal class UserDomain : DomainBase, IUserDomain
     {
-        public UserDomain(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(unitOfWork, mapper, httpContextAccessor)
+        private readonly EmailService _emailService;
+
+        public UserDomain(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, EmailService emailService) : base(unitOfWork, mapper, httpContextAccessor)
         {
+            _emailService = emailService;
         }
         private IUserRepository UserRepository => _unitOfWork.GetRepository<IUserRepository>();
+        private IUserTypeRepository UserTypeRepository => _unitOfWork.GetRepository<IUserTypeRepository>();
         public Pagination<UserGetDTO> GetAllUsers(QueryParameters queryParameters)
         {
             var users = UserRepository.GetAllUsers(queryParameters);
+            users.Data.ForEach(x => { x.UserType = UserTypeRepository.GetById(x.UserTypeId); });
             var paginatedData = Pagination<UserGetDTO>.ToPagedList(users, _mapper.Map<List<UserGetDTO>>);
             return paginatedData;
         }
@@ -26,22 +34,45 @@ namespace Domain.Concrete
         public UserGetDTO GetUserById(Guid id)
         {
             TblUser user = UserRepository.GetById(id);
+            user.UserType = UserTypeRepository.GetById(user.UserTypeId);
             return _mapper.Map<UserGetDTO>(user);
         }
-        public void AddNewUser(UserPostDTO userPostDTO)
+        public UserTypeDTO GetUserTypeById(Guid id)
+        {
+            TblUserType userType = UserTypeRepository.GetById(id);
+            return _mapper.Map<UserTypeDTO>(userType);
+
+        }
+        public async void AddNewUser(UserPostDTO userPostDTO)
         {
             // check if username is unique
             var checkUser = UserRepository.CheckIfUsernamExist(userPostDTO.Username);
             if (checkUser == null)
             {
+                var generatedPassword = PasswordManager.GenerateRandomPassword(10);
                 var mapper = _mapper.Map<TblUser>(userPostDTO);
-                mapper.UserId = Guid.NewGuid();
-                mapper.DateCreated = DateTimeOffset.Now;
+                mapper.Id = Guid.NewGuid();
+                mapper.CreatedDate = DateTimeOffset.Now;
                 mapper.IsActive = true;
                 mapper.CreatedBy = GetUserId();
+                mapper.LastModifiedBy = GetUserId();
+                mapper.LastModifiedDate = DateTimeOffset.Now;
                 mapper.Password = PasswordManager.HashPassword(userPostDTO.Password);
+                
+                // Send the generated password to user's email
+                try
+                {
+
+                await _emailService.SendEmail(mapper.Email, "Your Account Password",
+                    $"Hello {mapper.FirstName} {mapper.LastName},\n\nYour account has been created.\nUsername: {mapper.Username}\nPassword: {generatedPassword}\n\nPlease log in and change your password.");
                 UserRepository.Add(mapper);
                 _unitOfWork.Save();
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
             }
             else
             {
@@ -64,7 +95,7 @@ namespace Domain.Concrete
                 throw new Exception("Invalid username or password");
             }
 
-            var tokenValue = GenerateToken.ReturnToken(loginUserDTO.Username, user.UserId, user.UserType.Name);
+            var tokenValue = GenerateToken.ReturnToken(loginUserDTO.Username, user.Id, user.UserType.Name);
             if (tokenValue == null)
             {
                 throw new Exception("Token generation failed");
@@ -85,9 +116,30 @@ namespace Domain.Concrete
                 throw new Exception("This is user doesn't exist");
 
             var mapper = _mapper.Map<TblUser>(userPostDTO);
-            mapper.UserId = userId;
+            mapper.Id = userId;
             UserRepository.Update(mapper);
             throw new NotImplementedException();
+        }
+
+        public void AddNewUserType(UserTypePostDto userTypePostDTO)
+        {
+            if (userTypePostDTO.Name != null)
+            {
+                var mapper = _mapper.Map<TblUserType>(userTypePostDTO);
+                mapper.Id = Guid.NewGuid();
+                mapper.IsActive = true;
+                UserTypeRepository.Add(mapper);
+                _unitOfWork.Save();
+            }
+            else
+            {
+                throw new Exception("Role name mus not be null!");
+            }
+        }
+        public List<UserTypeDTO> GetAllUserTypes()
+        {
+            var userTypes = UserTypeRepository.GetAll();
+            return _mapper.Map<List<UserTypeDTO>>(userTypes);
         }
     }
 }

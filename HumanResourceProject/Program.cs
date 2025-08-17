@@ -1,3 +1,4 @@
+using DAL.UoW;
 using DI;
 using Domain.Mappings;
 using Entities.Models;
@@ -11,10 +12,11 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+//Scaffold-DbContext "Server=localhost;Initial Catalog=school-adm;MultipleActiveResultSets=True;Trusted_Connection=True;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -Context SchoolAdministrationContext -OutputDir Models -Force
 
+builder.Services.AddDbContext<SchoolAdministrationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolAdministrationDB")));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-var connString = builder.Configuration.GetConnectionString("PostOfficeDB");
-builder.Services.AddDbContext<PostOfficeDBContext>(options => options.UseSqlServer(connString));
 var key = Encoding.ASCII.GetBytes("your_secret_key_here"); // Replace with your secret key
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection(nameof(MailSettings)));
 
@@ -94,13 +96,14 @@ builder.Services.AddCors(options =>
 builder.Host.UseLamar((context, registry) =>
 {
     // register services using Lamar
-    registry.IncludeRegistry<PostOfficeRegistry>();
+    registry.IncludeRegistry<SchoolAdministrationRegistry>();
     registry.IncludeRegistry<MapperRegistry>();
     // add the controllers
 });
 
 
 var app = builder.Build();
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 

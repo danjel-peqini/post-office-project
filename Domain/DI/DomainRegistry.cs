@@ -18,11 +18,8 @@ namespace Domain.DI
             IncludeRegistry<DomainUnitOfWorkRegistry>();
 
             For<IUserDomain>().Use<UserDomain>();
-            For<IShipmentDomain>().Use<ShipmentDomain>();
-            For<IHistoryDomain>().Use<HistoryDomain>();
-            For<IPostOfficeDomain>().Use<PostOfficeDomain>();
-            For<IPackageDomain>().Use<PackageDomain>();
-            For<ITransportDomain>().Use<TransportDomain>();
+            For<IDepartmantDomain>().Use<DepartmantDomain>();
+
             AddRepositoryRegistries();
             AddHttpContextRegistries();
         }

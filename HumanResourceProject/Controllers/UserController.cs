@@ -30,13 +30,25 @@ namespace HumanResourceProject.Controllers
                    => Ok(_userDomain.GetUserById(userId));
         [HttpPost]
         [Route("add")]
-        public IActionResult AddNewUser([FromQuery] UserPostDTO userPostDTO)
+        public IActionResult AddNewUser([FromBody] UserPostDTO userPostDTO)
         {
             _userDomain.AddNewUser(userPostDTO);
             return Ok();
         }
 
-            
+        [HttpGet]
+        [Route("user-type/{userTypeId}")]
+        public IActionResult GetUserType([FromRoute] Guid userTypeId)
+        {
+            return Ok(_userDomain.GetUserTypeById(userTypeId));
+        }
+        [HttpGet]
+        [Route("user-type/all")]
+        public IActionResult GetAllUserTypes()
+        {
+            return Ok(_userDomain.GetAllUserTypes());
+        }
     }
+
 }
 

@@ -10,11 +10,15 @@ namespace DTO.PostOfficeDTO
     {
         public Guid PostOfficeId { get; set; }
         public string? Name { get; set; }
+        public string? address { get; set; }
+        public string? postalCode { get; set; }
         public bool? IsActive { get; set; }
     }
     public class PostOfficePostDTO
     {
         public string? Name { get; set; }
+        public string? address { get; set; }
+        public string? postalCode { get; set; }
 
     }
 }

@@ -24,7 +24,7 @@ namespace Helpers.Pagination
         }
         public string SortField { get; set; } = string.Empty;
         public string SortOrder { get; set; } = "asc";
-        public string SearchValue { get; set; } = string.Empty;
+        public string? SearchValue { get; set; } = string.Empty;
 
         public class PagedList<T>
         {
