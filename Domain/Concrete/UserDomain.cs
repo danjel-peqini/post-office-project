@@ -10,6 +10,7 @@ using Helpers.Pagination;
 using Helpers.PasswordManager;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Configuration;
 
 namespace Domain.Concrete

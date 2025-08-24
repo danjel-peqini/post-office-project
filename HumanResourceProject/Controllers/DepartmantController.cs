@@ -28,9 +28,9 @@ namespace PostOfficeProject.Controllers
                    => Ok(_departmantDomain.GetDepartmantBtyd(departmantId));
         [HttpPost]
         [Route("add")]
-        public IActionResult AddNew([FromBody] DepartmantPostDTO departmantPostDTO)
+        public IActionResult AddNew([FromBody] DepartmantPostDTO departmant)
         {
-            _departmantDomain.AddNew(departmantPostDTO);
+            _departmantDomain.AddNew(departmant);
             return Ok();
         }
         [HttpDelete]
