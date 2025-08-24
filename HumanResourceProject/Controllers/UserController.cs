@@ -37,6 +37,22 @@ namespace HumanResourceProject.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        [Route("{userId}/password")]
+        public IActionResult ChangePassword([FromRoute] Guid userId, [FromBody] ChangePasswordDTO changePasswordDTO)
+        {
+            _userDomain.ChangePassword(userId, changePasswordDTO);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO forgotPasswordDTO)
+        {
+            await _userDomain.ForgotPassword(forgotPasswordDTO);
+            return Ok();
+        }
+
         [HttpGet]
         [Route("user-type/{userTypeId}")]
         public IActionResult GetUserType([FromRoute] Guid userTypeId)

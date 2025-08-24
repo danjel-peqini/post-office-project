@@ -8,19 +8,22 @@ using Entities.Models;
 using Helpers.Email;
 using Helpers.Pagination;
 using Helpers.PasswordManager;
-using LamarCodeGeneration.Frames;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Configuration;
 
 namespace Domain.Concrete
 {
     internal class UserDomain : DomainBase, IUserDomain
     {
         private readonly EmailService _emailService;
+        private readonly IConfiguration _configuration;
 
-        public UserDomain(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, EmailService emailService) : base(unitOfWork, mapper, httpContextAccessor)
+        public UserDomain(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, EmailService emailService, IConfiguration configuration) : base(unitOfWork, mapper, httpContextAccessor)
         {
             _emailService = emailService;
+            _configuration = configuration;
         }
         private IUserRepository UserRepository => _unitOfWork.GetRepository<IUserRepository>();
         private IUserTypeRepository UserTypeRepository => _unitOfWork.GetRepository<IUserTypeRepository>();
@@ -98,13 +101,58 @@ namespace Domain.Concrete
                 throw new Exception("Invalid username or password");
             }
 
-            var tokenValue = GenerateToken.ReturnToken(loginUserDTO.Username, user.Id, user.UserType.Name);
+            var tokenValue = GenerateToken.ReturnToken(loginUserDTO.Username, user.Id, user.UserType.Name, _configuration);
             if (tokenValue == null)
             {
                 throw new Exception("Token generation failed");
             }
 
             return tokenValue;
+        }
+
+        public void ChangePassword(Guid userId, ChangePasswordDTO changePasswordDTO)
+        {
+            var user = UserRepository.GetById(userId);
+            if (user == null)
+            {
+                throw new Exception("User doesn't exist");
+            }
+
+            user.Password = PasswordManager.HashPassword(changePasswordDTO.NewPassword);
+            user.LastModifiedDate = DateTimeOffset.Now;
+            user.LastModifiedBy = GetUserId();
+
+            UserRepository.Update(user);
+            _unitOfWork.Save();
+        }
+
+        public async Task ForgotPassword(ForgotPasswordDTO forgotPasswordDTO)
+        {
+            var user = UserRepository.CheckIfUsernamExist(forgotPasswordDTO.Username);
+            if (user == null)
+            {
+                throw new Exception("Username doesn't exist");
+            }
+
+            var newPassword = PasswordManager.GenerateRandomPassword(10);
+            user.Password = PasswordManager.HashPassword(newPassword);
+            user.LastModifiedDate = DateTimeOffset.Now;
+            user.LastModifiedBy = user.Id;
+
+            UserRepository.Update(user);
+            _unitOfWork.Save();
+
+            try
+            {
+                await _emailService.SendEmail(
+                    user.Email,
+                    "Password Reset",
+                    $"Hello {user.FirstName} {user.LastName},<br/>Your new password is: {newPassword}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void Logout(string token)
