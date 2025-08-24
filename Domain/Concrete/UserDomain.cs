@@ -10,6 +10,7 @@ using Helpers.Pagination;
 using Helpers.PasswordManager;
 using LamarCodeGeneration.Frames;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace Domain.Concrete
 {
@@ -43,7 +44,7 @@ namespace Domain.Concrete
             return _mapper.Map<UserTypeDTO>(userType);
 
         }
-        public async void AddNewUser(UserPostDTO userPostDTO)
+        public async Task AddNewUser(UserPostDTO userPostDTO)
         {
             // check if username is unique
             var checkUser = UserRepository.CheckIfUsernamExist(userPostDTO.Username);
@@ -57,13 +58,15 @@ namespace Domain.Concrete
                 mapper.CreatedBy = GetUserId();
                 mapper.LastModifiedBy = GetUserId();
                 mapper.LastModifiedDate = DateTimeOffset.Now;
-                mapper.Password = PasswordManager.HashPassword(userPostDTO.Password);
+                mapper.Password = PasswordManager.HashPassword(generatedPassword);
                 
                 // Send the generated password to user's email
                 try
                 {
 
-                await _emailService.SendEmail(mapper.Email, "Your Account Password",
+                await _emailService.SendEmail(
+                    mapper.Email,
+                    "Your Account Password",
                     $"Hello {mapper.FirstName} {mapper.LastName},\n\nYour account has been created.\nUsername: {mapper.Username}\nPassword: {generatedPassword}\n\nPlease log in and change your password.");
                 UserRepository.Add(mapper);
                 _unitOfWork.Save();
