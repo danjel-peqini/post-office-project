@@ -20,6 +20,8 @@ namespace Domain.Contracts
         void Logout(string token);
         UserTypeDTO GetUserTypeById(Guid id);
         List<UserTypeDTO> GetAllUserTypes();
+        void ChangePassword(Guid userId, ChangePasswordDTO changePasswordDTO);
+        Task ForgotPassword(ForgotPasswordDTO forgotPasswordDTO);
 
     }
 }
