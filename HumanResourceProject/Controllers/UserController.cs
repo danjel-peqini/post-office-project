@@ -2,6 +2,7 @@
 using DTO.UserDTO;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace HumanResourceProject.Controllers
 
@@ -30,9 +31,9 @@ namespace HumanResourceProject.Controllers
                    => Ok(_userDomain.GetUserById(userId));
         [HttpPost]
         [Route("add")]
-        public IActionResult AddNewUser([FromBody] UserPostDTO userPostDTO)
+        public async Task<IActionResult> AddNewUser([FromBody] UserPostDTO userPostDTO)
         {
-            _userDomain.AddNewUser(userPostDTO);
+            await _userDomain.AddNewUser(userPostDTO);
             return Ok();
         }
 

@@ -13,7 +13,7 @@ namespace Domain.Contracts
     {
         Pagination<UserGetDTO> GetAllUsers(QueryParameters queryParameters);
         UserGetDTO GetUserById(Guid id);
-        void AddNewUser(UserPostDTO userPostDTO);
+        Task AddNewUser(UserPostDTO userPostDTO);
         void AddNewUserType(UserTypePostDto userTipePostDto);
         void UpdateUserStatus(Guid userId, UserPutDTO userPostDTO);
         string Login(LoginUserDTO loginUserDTO);
