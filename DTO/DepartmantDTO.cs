@@ -8,12 +8,12 @@ namespace DTO
 {
     public class DepartmantDTO
     {
-        private Guid Id { get; set; }
-        private string Name { get; set; }
-        private bool isActive { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public bool isActive { get; set; }
     }
     public class DepartmantPostDTO
     {
-        private string Name { get; set; }
+        public string? Name { get; set; }
     }
 }
