@@ -10,16 +10,20 @@ using Helpers.Pagination;
 using Helpers.PasswordManager;
 using LamarCodeGeneration.Frames;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Domain.Concrete
 {
     internal class UserDomain : DomainBase, IUserDomain
     {
         private readonly EmailService _emailService;
+        private readonly IConfiguration _configuration;
 
-        public UserDomain(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, EmailService emailService) : base(unitOfWork, mapper, httpContextAccessor)
+        public UserDomain(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, EmailService emailService, IConfiguration configuration) : base(unitOfWork, mapper, httpContextAccessor)
         {
             _emailService = emailService;
+            _configuration = configuration;
         }
         private IUserRepository UserRepository => _unitOfWork.GetRepository<IUserRepository>();
         private IUserTypeRepository UserTypeRepository => _unitOfWork.GetRepository<IUserTypeRepository>();
@@ -43,7 +47,7 @@ namespace Domain.Concrete
             return _mapper.Map<UserTypeDTO>(userType);
 
         }
-        public async void AddNewUser(UserPostDTO userPostDTO)
+        public async Task AddNewUser(UserPostDTO userPostDTO)
         {
             // check if username is unique
             var checkUser = UserRepository.CheckIfUsernamExist(userPostDTO.Username);
@@ -57,13 +61,15 @@ namespace Domain.Concrete
                 mapper.CreatedBy = GetUserId();
                 mapper.LastModifiedBy = GetUserId();
                 mapper.LastModifiedDate = DateTimeOffset.Now;
-                mapper.Password = PasswordManager.HashPassword(userPostDTO.Password);
+                mapper.Password = PasswordManager.HashPassword(generatedPassword);
                 
                 // Send the generated password to user's email
                 try
                 {
 
-                await _emailService.SendEmail(mapper.Email, "Your Account Password",
+                await _emailService.SendEmail(
+                    mapper.Email,
+                    "Your Account Password",
                     $"Hello {mapper.FirstName} {mapper.LastName},\n\nYour account has been created.\nUsername: {mapper.Username}\nPassword: {generatedPassword}\n\nPlease log in and change your password.");
                 UserRepository.Add(mapper);
                 _unitOfWork.Save();
@@ -95,7 +101,7 @@ namespace Domain.Concrete
                 throw new Exception("Invalid username or password");
             }
 
-            var tokenValue = GenerateToken.ReturnToken(loginUserDTO.Username, user.Id, user.UserType.Name);
+            var tokenValue = GenerateToken.ReturnToken(loginUserDTO.Username, user.Id, user.UserType.Name, _configuration);
             if (tokenValue == null)
             {
                 throw new Exception("Token generation failed");

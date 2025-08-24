@@ -6,14 +6,16 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Helpers.PasswordManager
 {
     public static class GenerateToken
     {
-        public static string ReturnToken(string username, Guid userId, string userTypeName )
+        public static string ReturnToken(string username, Guid userId, string userTypeName, IConfiguration configuration)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("your_secret_key_here"));
+            var jwtSettings = configuration.GetSection("JwtSettings");
+            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings["Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
@@ -26,8 +28,8 @@ namespace Helpers.PasswordManager
         };
 
             var token = new JwtSecurityToken(
-                issuer: "your_issuer_here",
-                audience: "your_audience_here",
+                issuer: jwtSettings["Issuer"],
+                audience: jwtSettings["Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(1), // Set token expiration time
                 signingCredentials: credentials
