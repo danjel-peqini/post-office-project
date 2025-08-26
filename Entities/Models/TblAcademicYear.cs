@@ -12,6 +12,7 @@ namespace Entities.Models
         }
 
         public Guid Id { get; set; }
+        public int StartingYear { get; set; } 
         public string Year { get; set; } = null!;
         public bool? IsActive { get; set; }
 

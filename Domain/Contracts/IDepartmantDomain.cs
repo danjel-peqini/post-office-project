@@ -12,10 +12,10 @@ namespace Domain.Contracts
 {
     public interface IDepartmantDomain
     {
-            Pagination<DepartmantDTO> GetAllDepartmants(QueryParameters queryParameters);
-            DepartmantDTO GetDepartmantBtyd(Guid id);
-            void AddNew(DepartmantPostDTO departmantPostDTO);
-            void delete(Guid id);
+        Pagination<DepartmantDTO> GetAllDepartmants(QueryParameters queryParameters);
+        DepartmantDTO GetDepartmantBtyd(Guid id);
+        void AddNew(DepartmantPostDTO departmantPostDTO);
+        void delete(Guid id);
         CourseDTO addCourse(CoursePostDTO course, Guid departmantId);
         CourseDTO updateCourse(CoursePostDTO course, Guid courseId);
 

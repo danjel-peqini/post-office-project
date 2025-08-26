@@ -47,6 +47,7 @@ namespace Domain.Concrete
             try
             {
                 var mapper = _mapper.Map<TblDepartment>(departmantPostDTO);
+                mapper.CreatedDate = DateTimeOffset.Now;
                 mapper.IsActive = true;
                 mapper.Id = Guid.NewGuid();
                 DepartmantRepository.Add(mapper);
