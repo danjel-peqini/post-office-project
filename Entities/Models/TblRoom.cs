@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace Entities.Models
 {
@@ -12,7 +13,7 @@ namespace Entities.Models
 
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
-        public int RoomType { get; set; }
+        public RoomType RoomType { get; set; }
         public int? SeatsNumber { get; set; }
 
         public virtual ICollection<TblSchedule> TblSchedules { get; set; }

@@ -34,6 +34,10 @@ namespace Domain.Mappings
             CreateMap<TblCourse, CoursePostDTO>().ReverseMap();
             CreateMap<CoursePostDTO, CourseDTO>().ReverseMap();
             #endregion
+            #region rooms
+            CreateMap<TblRoom, RoomDTO>().ReverseMap();
+            CreateMap<TblRoom, RoomPostDTO>().ReverseMap();
+            #endregion
             #region academicYear
             CreateMap<TblAcademicYear, AcademicYearDTO>().ReverseMap();
             CreateMap<TblAcademicYear, AcademicYearPostDTO>().ReverseMap();

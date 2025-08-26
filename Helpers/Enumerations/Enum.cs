@@ -19,4 +19,11 @@ namespace Helpers
         AddShipment = 1,
         UpdateShipmentStatus = 2,
     }
+
+    public enum RoomType
+    {
+        LABORATOR = 1,
+        LEKSION = 2,
+        SEMINAR = 3
+    }
 }
