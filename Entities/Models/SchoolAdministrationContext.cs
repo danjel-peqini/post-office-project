@@ -209,6 +209,12 @@ namespace Entities.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__tblSchedu__Group__08B54D69");
 
+                entity.HasOne(d => d.AcademicYear)
+                    .WithMany(p => p.TblSchedules)
+                    .HasForeignKey(d => d.AcademicYearId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__tblSchedu__Acade__0C85DE4D");
+
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.TblSchedules)
                     .HasForeignKey(d => d.RoomId)
