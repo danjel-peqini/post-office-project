@@ -21,6 +21,7 @@ namespace DAL.DI
             For<ICourseRepository>().Use<CourseRepository>();
             For<IAcademicYearRepository>().Use<AcademicYearRepository>();
             For<IAttendanceRepository>().Use<AttendanceRepository>();
+            For<IRoomRepository>().Use<RoomRepository>();
             //    For<IHistoryRepository>().Use<HistoryRepository>();
             //    For<IPostOfficeRepository>().Use<PostOfficeRepository>();
             //    For<IPackageRepository>().Use<PackageRepository>();
