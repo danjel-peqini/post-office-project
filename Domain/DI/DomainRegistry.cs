@@ -21,6 +21,8 @@ namespace Domain.DI
             For<IDepartmantDomain>().Use<DepartmantDomain>();
             For<IAcademicYearDomain>().Use<AcademicYearDomain>();
             For<IAttendanceDomain>().Use<AttendanceDomain>();
+            For<IStudentCardDomain>().Use<StudentCardDomain>();
+            For<ICourseDomain>().Use<CourseDomain>();
 
             AddRepositoryRegistries();
             AddHttpContextRegistries();
