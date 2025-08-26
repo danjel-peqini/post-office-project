@@ -325,6 +325,13 @@ namespace Entities.Models
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Birthday)
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Password).IsUnicode(false);
 
                 entity.Property(e => e.Username)
