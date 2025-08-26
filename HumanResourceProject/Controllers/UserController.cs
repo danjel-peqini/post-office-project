@@ -2,6 +2,8 @@
 using DTO.UserDTO;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HumanResourceProject.Controllers
@@ -23,6 +25,12 @@ namespace HumanResourceProject.Controllers
         [Route("getAll")]
         public IActionResult GetAllUsers([FromQuery] QueryParameters queryParameters)
                     => Ok(_userDomain.GetAllUsers(queryParameters));
+
+
+        [HttpGet]
+        [Route("by-user-types")]
+        public IActionResult GetUsersByTypeIds([FromQuery] List<Guid> userTypeIds)
+                    => Ok(_userDomain.GetUsersByTypeIds(userTypeIds));
 
 
         [HttpGet]
