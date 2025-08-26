@@ -22,6 +22,7 @@ namespace Domain.Contracts
         List<UserTypeDTO> GetAllUserTypes();
         void ChangePassword(Guid userId, ChangePasswordDTO changePasswordDTO);
         Task ForgotPassword(ForgotPasswordDTO forgotPasswordDTO);
+        List<UserGetDTO> GetUsersByTypeIds(List<Guid> userTypeIds);
 
     }
 }

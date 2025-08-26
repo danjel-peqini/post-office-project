@@ -13,6 +13,7 @@ namespace DAL.Contracts
     {
         PagedList<TblUser> GetAllUsers(QueryParameters queryParameters);
         TblUser CheckIfUsernamExist(string userName);
+        List<TblUser> GetUsersByTypeIds(IEnumerable<Guid> userTypeIds);
 
     }
 }

@@ -9,6 +9,7 @@ using Helpers.Email;
 using Helpers.Pagination;
 using Helpers.PasswordManager;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Configuration;
@@ -33,6 +34,15 @@ namespace Domain.Concrete
             users.Data.ForEach(x => { x.UserType = UserTypeRepository.GetById(x.UserTypeId); });
             var paginatedData = Pagination<UserGetDTO>.ToPagedList(users, _mapper.Map<List<UserGetDTO>>);
             return paginatedData;
+        }
+
+        public List<UserGetDTO> GetUsersByTypeIds(List<Guid> userTypeIds)
+        {
+            if (userTypeIds == null || userTypeIds.Count == 0)
+                return new List<UserGetDTO>();
+
+            var users = UserRepository.GetUsersByTypeIds(userTypeIds);
+            return _mapper.Map<List<UserGetDTO>>(users);
         }
 
         public UserGetDTO GetUserById(Guid id)
