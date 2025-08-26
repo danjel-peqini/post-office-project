@@ -17,6 +17,8 @@ namespace Entities.Models
         public Guid? LastModifiedBy { get; set; }
         public string Username { get; set; } = null!;
         public string? LastName { get; set; }
+        public DateTime? Birthday { get; set; }
+        public string? Address { get; set; }
 
         public virtual TblUserType UserType { get; set; } = null!;
         public virtual TblStudentCard TblStudentCard { get; set; } = null!;
