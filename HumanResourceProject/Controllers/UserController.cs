@@ -33,11 +33,6 @@ namespace HumanResourceProject.Controllers
                     => Ok(_userDomain.GetUsersByTypeIds(userTypeIds, queryParameters));
 
 
-        [HttpGet]
-        [Route("by-user-types")]
-        public IActionResult GetUsersByTypeIds([FromQuery] IEnumerable<Guid> userTypeIds, [FromQuery] QueryParameters queryParameters)
-                    => Ok(_userDomain.GetUsersByTypeIds(userTypeIds, queryParameters));
-
 
         [HttpGet]
         [Route("{userId}")]
