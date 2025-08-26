@@ -29,8 +29,15 @@ namespace DAL.Concrete
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
             return PagedList<TblUser>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);
 
-        } 
- 
+        }
+
+        public PagedList<TblUser> GetUsersByTypeIds(IEnumerable<Guid> userTypeIds, QueryParameters queryParameters)
+        {
+            var data = context.Where(x => x.IsActive && userTypeIds.Contains(x.UserTypeId));
+            var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
+            return PagedList<TblUser>.ToPagedList(filterData, queryParameters.CurrentPage, queryParameters.PageSize);
+        }
+
     }
 
 
