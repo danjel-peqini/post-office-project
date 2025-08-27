@@ -14,7 +14,7 @@ namespace DTO.UserDTO
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public DateTime? Birthday { get; set; }
+        public DateTimeOffset? Birthday { get; set; }
         public string? Address { get; set; }
         public DateTimeOffset? CreatedDate { get; set; }
         public DateTimeOffset? LastModifiedDate { get; set; }
@@ -30,9 +30,9 @@ namespace DTO.UserDTO
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public DateTime? Birthday { get; set; }
+        public DateTimeOffset? Birthday { get; set; }
         public string? Address { get; set; }
-        public string Password { get; set; } = null!;
+        public string? Password { get; set; } = null!;
         public Guid UserTypeId { get; set; }
 
     }
