@@ -1,14 +1,12 @@
-﻿using DAL.Concrete;
 using Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Helpers.Pagination;
+using static Helpers.Pagination.QueryParameters;
 
 namespace DAL.Contracts
 {
-    public interface ICourseRepository: IRepository<TblCourse, Guid>
+    public interface ICourseRepository : IRepository<TblCourse, Guid>
     {
+        PagedList<TblCourse> GetCourses(QueryParameters queryParameters);
     }
 }
+
