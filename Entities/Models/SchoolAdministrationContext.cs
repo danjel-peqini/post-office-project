@@ -341,15 +341,13 @@ namespace Entities.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Birthday)
-                    .HasColumnType("date");
+                     .HasColumnType("datetimeoffset");
 
                 entity.Property(e => e.CreatedDate)
-                    .HasConversion(nullableDateTimeOffsetConverter)
-                    .HasColumnType("datetime");
+                     .HasColumnType("datetimeoffset");
 
                 entity.Property(e => e.LastModifiedDate)
-                    .HasConversion(nullableDateTimeOffsetConverter)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetimeoffset");
 
                 entity.Property(e => e.Address)
                     .HasMaxLength(255)
