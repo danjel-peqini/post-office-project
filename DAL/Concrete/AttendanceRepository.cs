@@ -25,7 +25,7 @@ namespace DAL.Concrete
                 Id = Guid.NewGuid(),
                 SessionId = sessionId,
                 StudentId = student.Id,
-                CheckInTime = DateTime.UtcNow,
+                CheckInTime = DateTimeOffset.UtcNow,
                 CheckedInBy = "student"
             };
             Add(attendance);
