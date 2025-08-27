@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entities.Models
 {
@@ -42,6 +43,14 @@ namespace Entities.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            var dateTimeOffsetConverter = new ValueConverter<DateTimeOffset, DateTime>(
+                v => v.UtcDateTime,
+                v => new DateTimeOffset(DateTime.SpecifyKind(v, DateTimeKind.Utc)));
+
+            var nullableDateTimeOffsetConverter = new ValueConverter<DateTimeOffset?, DateTime?>(
+                v => v.HasValue ? v.Value.UtcDateTime : null,
+                v => v.HasValue ? new DateTimeOffset(DateTime.SpecifyKind(v.Value, DateTimeKind.Utc)) : (DateTimeOffset?)null);
+
             modelBuilder.Entity<TblAbsenceWarning>(entity =>
             {
                 entity.ToTable("tblAbsenceWarnings");
@@ -89,7 +98,9 @@ namespace Entities.Models
 
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.CheckInTime).HasColumnType("datetime");
+                entity.Property(e => e.CheckInTime)
+                    .HasConversion(dateTimeOffsetConverter)
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.CheckedInBy).HasMaxLength(50);
 
@@ -134,6 +145,10 @@ namespace Entities.Models
                 entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.Property(e => e.CreatedDate)
+                    .HasConversion(nullableDateTimeOffsetConverter)
+                    .HasColumnType("datetime");
             });
 
             modelBuilder.Entity<TblGroup>(entity =>
@@ -327,6 +342,14 @@ namespace Entities.Models
 
                 entity.Property(e => e.Birthday)
                     .HasColumnType("date");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasConversion(nullableDateTimeOffsetConverter)
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.LastModifiedDate)
+                    .HasConversion(nullableDateTimeOffsetConverter)
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Address)
                     .HasMaxLength(255)
