@@ -147,8 +147,7 @@ namespace Entities.Models
                 entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.CreatedDate)
-                    .HasConversion(nullableDateTimeOffsetConverter)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetimeoffset");
             });
 
             modelBuilder.Entity<TblGroup>(entity =>
