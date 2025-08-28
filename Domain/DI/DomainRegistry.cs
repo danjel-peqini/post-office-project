@@ -23,6 +23,7 @@ namespace Domain.DI
             For<IAttendanceDomain>().Use<AttendanceDomain>();
             For<IRoomDomain>().Use<RoomDomain>();
             For<ICourseDomain>().Use<CourseDomain>();
+            For<IStudentCardDomain>().Use<StudentCardDomain>();
 
             AddRepositoryRegistries();
             AddHttpContextRegistries();
