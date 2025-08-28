@@ -286,6 +286,16 @@ namespace Entities.Models
 
                 entity.Property(e => e.StudentCardCode).HasMaxLength(100);
 
+                entity.Property(e => e.CreatedDate)
+                    .HasConversion(nullableDateTimeOffsetConverter)
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.DisabledDate)
+                    .HasConversion(nullableDateTimeOffsetConverter)
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+
                 entity.HasOne(d => d.AcademicYear)
                     .WithMany(p => p.TblStudentCards)
                     .HasForeignKey(d => d.AcademicYearId)
@@ -338,6 +348,8 @@ namespace Entities.Models
                 entity.Property(e => e.LastName)
                     .HasMaxLength(255)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Birthday)
                      .HasColumnType("datetimeoffset");
