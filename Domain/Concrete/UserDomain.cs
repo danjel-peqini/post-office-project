@@ -5,6 +5,7 @@ using Domain.Contracts;
 using DTO.UserDTO;
 using DTO.UserTypeDTO;
 using Entities.Models;
+using Helpers;
 using Helpers.Email;
 using Helpers.Pagination;
 using Helpers.PasswordManager;
@@ -72,7 +73,7 @@ namespace Domain.Concrete
                 var mapper = _mapper.Map<TblUser>(userPostDTO);
                 mapper.Id = Guid.NewGuid();
                 mapper.CreatedDate = DateTimeOffset.Now;
-                mapper.IsActive = true;
+                mapper.Status = EntityStatus.Active;
                 mapper.CreatedBy = GetUserId();
                 mapper.LastModifiedBy = GetUserId();
                 mapper.LastModifiedDate = DateTimeOffset.Now;

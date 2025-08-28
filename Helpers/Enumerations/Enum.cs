@@ -26,4 +26,11 @@ namespace Helpers
         LEKSION = 2,
         SEMINAR = 3
     }
+
+    public enum EntityStatus
+    {
+        Active = 1,
+        Inactive = 2,
+        Disabled = 3
+    }
 }

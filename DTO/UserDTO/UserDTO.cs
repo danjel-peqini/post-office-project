@@ -1,4 +1,5 @@
 ﻿using DTO.UserTypeDTO;
+using Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace DTO.UserDTO
         public DateTimeOffset? LastModifiedDate { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? LastModifiedBy { get; set; }
-        public bool IsActive { get; set; }
+        public EntityStatus Status { get; set; }
         public Guid UserTypeId { get; set; }
         public UserTypeGetDTO UserType { get; set; } = null!;
     }
@@ -39,7 +40,7 @@ namespace DTO.UserDTO
     public class UserPutDTO
     {
         public Guid UserTypeId { get; set; }
-        public bool IsActive { get; set; }
+        public EntityStatus Status { get; set; }
 
     }
 
