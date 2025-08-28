@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace Entities.Models
 {
@@ -10,7 +11,7 @@ namespace Entities.Models
         public string? Email { get; set; }
         public string Password { get; set; } = null!;
         public Guid UserTypeId { get; set; }
-        public bool IsActive { get; set; }
+        public EntityStatus Status { get; set; }
         public DateTimeOffset? CreatedDate { get; set; }
         public DateTimeOffset? LastModifiedDate { get; set; }
         public Guid? CreatedBy { get; set; }

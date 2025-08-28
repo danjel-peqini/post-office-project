@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace Entities.Models
 {
@@ -17,6 +18,9 @@ namespace Entities.Models
         public Guid DepartmentId { get; set; }
         public Guid AcademicYearId { get; set; }
         public string StudentCardCode { get; set; } = null!;
+        public DateTimeOffset? CreatedDate { get; set; }
+        public DateTimeOffset? DisabledDate { get; set; }
+        public EntityStatus Status { get; set; }
 
         public virtual TblAcademicYear AcademicYear { get; set; } = null!;
         public virtual TblDepartment Department { get; set; } = null!;
