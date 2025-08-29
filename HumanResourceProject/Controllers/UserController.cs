@@ -42,7 +42,15 @@ namespace HumanResourceProject.Controllers
         [Route("add")]
         public async Task<IActionResult> AddNewUser([FromBody] UserPostDTO userPostDTO)
         {
-            await _userDomain.AddNewUser(userPostDTO);
+            var createdUser = await _userDomain.AddNewUser(userPostDTO);
+            return CreatedAtAction(nameof(GetUserById), new { userId = createdUser.Id }, createdUser);
+        }
+
+        [HttpPatch]
+        [Route("{userId}")]
+        public IActionResult PatchUpdateUser([FromRoute] Guid userId, [FromBody] UserPatchDTO userPatchDTO)
+        {
+            _userDomain.PatchUpdateUser(userId, userPatchDTO);
             return Ok();
         }
 

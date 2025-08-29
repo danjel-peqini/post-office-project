@@ -21,6 +21,7 @@ namespace Domain.Mappings
             CreateMap<TblUser, UserPostDTO>().ReverseMap();
             CreateMap<TblUser, UserPutDTO>().ReverseMap();
             CreateMap<TblUser, UserSimpleDTO>().ReverseMap();
+            CreateMap<TblUser, UserPatchDTO>().ReverseMap();
             #endregion
             #region
             CreateMap<TblUserType, UserTypeDTO>().ReverseMap();

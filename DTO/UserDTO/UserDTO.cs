@@ -44,5 +44,15 @@ namespace DTO.UserDTO
 
     }
 
+    public class UserPatchDTO
+    {
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Email { get; set; }
+        public DateTimeOffset? Birthday { get; set; }
+        public string? Address { get; set; }
+        public Guid? UserTypeId { get; set; }
+    }
+
 
 }
