@@ -287,12 +287,10 @@ namespace Entities.Models
                 entity.Property(e => e.StudentCardCode).HasMaxLength(100);
 
                 entity.Property(e => e.CreatedDate)
-                    .HasConversion(nullableDateTimeOffsetConverter)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetimeoffset");
 
                 entity.Property(e => e.DisabledDate)
-                    .HasConversion(nullableDateTimeOffsetConverter)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetimeoffset");
 
                 entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 

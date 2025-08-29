@@ -1,10 +1,7 @@
 ﻿
 using IronBarCode;
 using System.Drawing;
-using ZXing;
-using ZXing.Common;
-using ZXing.Mobile;
-using ZXing.QrCode;
+
 using QRCodeWriter = IronBarCode.QRCodeWriter;
 
 namespace Helpers.Barcode
