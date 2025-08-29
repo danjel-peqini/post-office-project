@@ -2,6 +2,7 @@ using DAL.Contracts;
 using Entities.Models;
 using Helpers;
 using Helpers.Pagination;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using static Helpers.Pagination.QueryParameters;
@@ -29,7 +30,11 @@ namespace DAL.Concrete
 
         public PagedList<TblStudentCard> GetStudentCards(QueryParameters queryParameters, Guid? userId, Guid? academicYearId, Guid? departmentId)
         {
-            var data = context.AsQueryable();
+            var data = context
+                .Include(x => x.User)
+                .Include(x => x.Department)
+                .Include(x => x.AcademicYear)
+                .AsQueryable();
             if (userId.HasValue)
                 data = data.Where(x => x.UserId == userId.Value);
             if (academicYearId.HasValue)
@@ -38,6 +43,15 @@ namespace DAL.Concrete
                 data = data.Where(x => x.DepartmentId == departmentId.Value);
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
             return PagedList<TblStudentCard>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);
+        }
+
+        public override TblStudentCard GetById(Guid id)
+        {
+            return context
+                .Include(x => x.User)
+                .Include(x => x.Department)
+                .Include(x => x.AcademicYear)
+                .FirstOrDefault(x => x.Id == id);
         }
     }
 }
