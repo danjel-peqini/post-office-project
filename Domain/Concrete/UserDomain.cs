@@ -230,6 +230,17 @@ namespace Domain.Concrete
             _unitOfWork.Save();
         }
 
+        public void DeleteUser(Guid userId)
+        {
+            var user = UserRepository.GetById(userId);
+            if (user == null)
+            {
+                throw new Exception("User doesn't exist");
+            }
+            UserRepository.Remove(userId);
+            _unitOfWork.Save();
+        }
+
         public void Logout(string token)
         {
             throw new NotImplementedException();

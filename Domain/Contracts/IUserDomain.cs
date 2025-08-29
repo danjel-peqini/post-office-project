@@ -17,6 +17,7 @@ namespace Domain.Contracts
         void AddNewUserType(UserTypePostDto userTipePostDto);
         void UpdateUserStatus(Guid userId, UserPutDTO userPostDTO);
         void PatchUpdateUser(Guid userId, UserPatchDTO userPatchDTO);
+        void DeleteUser(Guid userId);
         string Login(LoginUserDTO loginUserDTO);
         void Logout(string token);
         UserTypeDTO GetUserTypeById(Guid id);
