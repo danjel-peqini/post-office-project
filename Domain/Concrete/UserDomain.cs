@@ -63,43 +63,42 @@ namespace Domain.Concrete
             return _mapper.Map<UserTypeDTO>(userType);
 
         }
-        public async Task AddNewUser(UserPostDTO userPostDTO)
+        public async Task<UserGetDTO> AddNewUser(UserPostDTO userPostDTO)
         {
             // check if username is unique
             var checkUser = UserRepository.CheckIfUsernamExist(userPostDTO.Username);
-            if (checkUser == null)
-            {
-                var generatedPassword = PasswordManager.GenerateRandomPassword(10);
-                var mapper = _mapper.Map<TblUser>(userPostDTO);
-                mapper.Id = Guid.NewGuid();
-                mapper.CreatedDate = DateTimeOffset.Now;
-                mapper.Status = EntityStatus.Active;
-                mapper.CreatedBy = GetUserId();
-                mapper.LastModifiedBy = GetUserId();
-                mapper.LastModifiedDate = DateTimeOffset.Now;
-                mapper.Password = PasswordManager.HashPassword(generatedPassword);
-                
-                // Send the generated password to user's email
-                try
-                {
-
-                await _emailService.SendEmail(
-                    mapper.Email,
-                    "Your Account Password",
-                    $"Hello {mapper.FirstName} {mapper.LastName},\n\nYour account has been created.\nUsername: {mapper.Username}\nPassword: {generatedPassword}\n\nPlease log in and change your password.");
-                UserRepository.Add(mapper);
-                _unitOfWork.Save();
-
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-            }
-            else
+            if (checkUser != null)
             {
                 throw new Exception("This username exist!");
             }
+
+            var generatedPassword = PasswordManager.GenerateRandomPassword(10);
+            var user = _mapper.Map<TblUser>(userPostDTO);
+            user.Id = Guid.NewGuid();
+            user.CreatedDate = DateTimeOffset.Now;
+            user.Status = EntityStatus.Active;
+            user.CreatedBy = GetUserId();
+            user.LastModifiedBy = GetUserId();
+            user.LastModifiedDate = DateTimeOffset.Now;
+            user.Password = PasswordManager.HashPassword(generatedPassword);
+
+            // Send the generated password to user's email and save user
+            try
+            {
+                await _emailService.SendEmail(
+                    user.Email,
+                    "Your Account Password",
+                    $"Hello {user.FirstName} {user.LastName},\n\nYour account has been created.\nUsername: {user.Username}\nPassword: {generatedPassword}\n\nPlease log in and change your password.");
+                UserRepository.Add(user);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            user.UserType = UserTypeRepository.GetById(user.UserTypeId);
+            return _mapper.Map<UserGetDTO>(user);
         }
 
 
