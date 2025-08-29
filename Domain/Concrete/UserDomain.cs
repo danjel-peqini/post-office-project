@@ -133,6 +133,11 @@ namespace Domain.Concrete
             {
                 throw new Exception("User doesn't exist");
             }
+            var isCurrentPasswordValid = PasswordManager.VerifyPassword(changePasswordDTO.CurrentPassword, user.Password);
+            if (!isCurrentPasswordValid)
+            {
+                throw new Exception("Current password is incorrect");
+            }
 
             user.Password = PasswordManager.HashPassword(changePasswordDTO.NewPassword);
             user.LastModifiedDate = DateTimeOffset.Now;
@@ -169,6 +174,61 @@ namespace Domain.Concrete
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public void PatchUpdateUser(Guid userId, UserPatchDTO userPatchDTO)
+        {
+            var user = UserRepository.GetById(userId);
+            if (user == null)
+            {
+                throw new Exception("User doesn't exist");
+            }
+
+            var fieldsToUpdate = new List<string>();
+
+            if (userPatchDTO.FirstName != null)
+            {
+                user.FirstName = userPatchDTO.FirstName;
+                fieldsToUpdate.Add(nameof(user.FirstName));
+            }
+
+            if (userPatchDTO.LastName != null)
+            {
+                user.LastName = userPatchDTO.LastName;
+                fieldsToUpdate.Add(nameof(user.LastName));
+            }
+
+            if (userPatchDTO.Email != null)
+            {
+                user.Email = userPatchDTO.Email;
+                fieldsToUpdate.Add(nameof(user.Email));
+            }
+
+            if (userPatchDTO.Birthday.HasValue)
+            {
+                user.Birthday = userPatchDTO.Birthday;
+                fieldsToUpdate.Add(nameof(user.Birthday));
+            }
+
+            if (userPatchDTO.Address != null)
+            {
+                user.Address = userPatchDTO.Address;
+                fieldsToUpdate.Add(nameof(user.Address));
+            }
+
+            if (userPatchDTO.UserTypeId.HasValue)
+            {
+                user.UserTypeId = userPatchDTO.UserTypeId.Value;
+                fieldsToUpdate.Add(nameof(user.UserTypeId));
+            }
+
+            user.LastModifiedDate = DateTimeOffset.Now;
+            user.LastModifiedBy = GetUserId();
+            fieldsToUpdate.Add(nameof(user.LastModifiedDate));
+            fieldsToUpdate.Add(nameof(user.LastModifiedBy));
+
+            UserRepository.PatchUpdate(user, fieldsToUpdate.ToArray());
+            _unitOfWork.Save();
         }
 
         public void Logout(string token)

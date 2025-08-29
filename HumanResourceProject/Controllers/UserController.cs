@@ -46,6 +46,14 @@ namespace HumanResourceProject.Controllers
             return Ok();
         }
 
+        [HttpPatch]
+        [Route("{userId}")]
+        public IActionResult PatchUpdateUser([FromRoute] Guid userId, [FromBody] UserPatchDTO userPatchDTO)
+        {
+            _userDomain.PatchUpdateUser(userId, userPatchDTO);
+            return Ok();
+        }
+
         [HttpPut]
         [Route("{userId}/password")]
         public IActionResult ChangePassword([FromRoute] Guid userId, [FromBody] ChangePasswordDTO changePasswordDTO)
