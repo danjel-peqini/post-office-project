@@ -54,6 +54,14 @@ namespace HumanResourceProject.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        [Route("{userId}")]
+        public IActionResult DeleteUser([FromRoute] Guid userId)
+        {
+            _userDomain.DeleteUser(userId);
+            return NoContent();
+        }
+
         [HttpPut]
         [Route("{userId}/password")]
         public IActionResult ChangePassword([FromRoute] Guid userId, [FromBody] ChangePasswordDTO changePasswordDTO)
