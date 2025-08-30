@@ -47,6 +47,7 @@ namespace Domain.Concrete
 
                 if (entities.Any())
                     GroupStudentRepository.AddRange(entities);
+
             }
             _unitOfWork.Save();
         }
