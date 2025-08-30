@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using DAL.Contracts;
 using DAL.UoW;
 using Domain.Contracts;
@@ -6,6 +6,7 @@ using DTO;
 using DTO.UserDTO;
 using DTO.UserTypeDTO;
 using Entities.Models;
+using Helpers;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -29,7 +30,7 @@ namespace Domain.Concrete
             try
             {
                 var mapped = _mapper.Map<TblCourse>(course);
-                mapped.IsActive = true;
+                mapped.Status = EntityStatus.Active;
                 mapped.DepartmentId = departmantId;
                 mapped.Id = Guid.NewGuid();
                 CourseRepository.Add(mapped);
@@ -48,7 +49,7 @@ namespace Domain.Concrete
             {
                 var mapper = _mapper.Map<TblDepartment>(departmantPostDTO);
                 mapper.CreatedDate = DateTimeOffset.Now;
-                mapper.IsActive = true;
+                mapper.Status = EntityStatus.Active;
                 mapper.Id = Guid.NewGuid();
                 DepartmantRepository.Add(mapper);
                 _unitOfWork.Save();
@@ -127,8 +128,8 @@ namespace Domain.Concrete
                 }
                 if(course.TotalHours.HasValue)
                     courseEntity.TotalHours = course.TotalHours.Value;
-                if(course.IsActive.HasValue)
-                    courseEntity.IsActive = course.IsActive.Value;
+                if(course.Status.HasValue)
+                    courseEntity.Status = course.Status.Value;
                 if (!string.IsNullOrWhiteSpace(course.Name))
                     courseEntity.Name = course.Name;
                 if (course.Credits.HasValue)

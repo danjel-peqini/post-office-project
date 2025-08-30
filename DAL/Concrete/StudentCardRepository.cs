@@ -20,7 +20,7 @@ namespace DAL.Concrete
 
         public void DisableCardsByUser(Guid userId)
         {
-            var cards = _dbContext.TblStudentCards.Where(x => x.UserId == userId && x.Status != EntityStatus.Disabled).ToList();
+            var cards = _dbContext.TblStudentCards.Where(x => x.UserId == userId && x.Status != EntityStatus.Disabled && x.Status != EntityStatus.Deleted).ToList();
             foreach (var card in cards)
             {
                 card.Status = EntityStatus.Disabled;
@@ -34,6 +34,7 @@ namespace DAL.Concrete
                 .Include(x => x.User)
                 .Include(x => x.Department)
                 .Include(x => x.AcademicYear)
+                .Where(x => x.Status != EntityStatus.Deleted)
                 .AsQueryable();
             if (userId.HasValue)
                 data = data.Where(x => x.UserId == userId.Value);
@@ -51,7 +52,7 @@ namespace DAL.Concrete
                 .Include(x => x.User)
                 .Include(x => x.Department)
                 .Include(x => x.AcademicYear)
-                .FirstOrDefault(x => x.Id == id);
+                .FirstOrDefault(x => x.Id == id && x.Status != EntityStatus.Deleted);
         }
     }
 }

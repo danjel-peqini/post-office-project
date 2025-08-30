@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace Entities.Models
 {
@@ -16,6 +17,7 @@ namespace Entities.Models
         public bool? IsOpen { get; set; }
         public string? Otp { get; set; }
         public DateTime? OtpcreatedAt { get; set; }
+        public EntityStatus Status { get; set; }
 
         public virtual TblSchedule Schedule { get; set; } = null!;
         public virtual ICollection<TblAttendance> TblAttendances { get; set; }

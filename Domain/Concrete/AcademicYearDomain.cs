@@ -4,6 +4,7 @@ using DAL.UoW;
 using Domain.Contracts;
 using DTO;
 using Entities.Models;
+using Helpers;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Http;
 
@@ -21,6 +22,7 @@ namespace Domain.Concrete
         {
             var entity = _mapper.Map<TblAcademicYear>(academicYearPostDTO);
             entity.Id = Guid.NewGuid();
+            entity.Status = academicYearPostDTO.Status ?? EntityStatus.Active;
             AcademicYearRepository.Add(entity);
             _unitOfWork.Save();
         }
@@ -51,8 +53,8 @@ namespace Domain.Concrete
             }
             if (!string.IsNullOrWhiteSpace(academicYearPostDTO.Year))
                 entity.Year = academicYearPostDTO.Year;
-            if (academicYearPostDTO.IsActive.HasValue)
-                entity.IsActive = academicYearPostDTO.IsActive;
+            if (academicYearPostDTO.Status.HasValue)
+                entity.Status = academicYearPostDTO.Status.Value;
             AcademicYearRepository.SetModified(entity);
             _unitOfWork.Save();
             return _mapper.Map<AcademicYearDTO>(entity);

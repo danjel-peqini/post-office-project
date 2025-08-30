@@ -1,5 +1,6 @@
 using DAL.Contracts;
 using Entities.Models;
+using Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,8 @@ namespace DAL.Concrete
                 SessionId = sessionId,
                 StudentId = student.Id,
                 CheckInTime = DateTimeOffset.UtcNow,
-                CheckedInBy = "student"
+                CheckedInBy = "student",
+                Status = EntityStatus.Active
             };
             Add(attendance);
             _dbContext.SaveChanges();
@@ -35,7 +37,7 @@ namespace DAL.Concrete
 
         public IEnumerable<TblAttendance> GetByStudent(Guid studentCardId)
         {
-            return _dbContext.TblAttendances.Where(a => a.StudentId == studentCardId).AsNoTracking().ToList();
+            return _dbContext.TblAttendances.Where(a => a.StudentId == studentCardId && a.Status != EntityStatus.Deleted).AsNoTracking().ToList();
         }
     }
 }

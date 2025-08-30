@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace Entities.Models
 {
@@ -15,6 +16,7 @@ namespace Entities.Models
         public string Name { get; set; } = null!;
         public Guid CourseId { get; set; }
         public Guid AcademicYearId { get; set; }
+        public EntityStatus Status { get; set; }
 
         public virtual TblAcademicYear AcademicYear { get; set; } = null!;
         public virtual TblCourse Course { get; set; } = null!;

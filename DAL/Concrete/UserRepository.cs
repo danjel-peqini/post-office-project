@@ -21,12 +21,12 @@ namespace DAL.Concrete
 
         public TblUser CheckIfUsernamExist(string userName)
         {
-            return context.Include(x=>x.UserType).FirstOrDefault(x => x.Status == EntityStatus.Active && x.Username.ToLower() == userName.ToLower());
+            return context.Include(x=>x.UserType).FirstOrDefault(x => x.Status != EntityStatus.Deleted && x.Username.ToLower() == userName.ToLower());
         }
 
         public PagedList<TblUser> GetAllUsers(QueryParameters queryParameters)
         {
-            var data = context.Where(x => x.Status == EntityStatus.Active);
+            var data = context.Where(x => x.Status != EntityStatus.Deleted);
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
             return PagedList<TblUser>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);
 
@@ -34,7 +34,7 @@ namespace DAL.Concrete
 
         public PagedList<TblUser> GetUsersByTypeIds(IEnumerable<Guid> userTypeIds, QueryParameters queryParameters)
         {
-            var data = context.Where(x => x.Status == EntityStatus.Active && userTypeIds.Contains(x.UserTypeId));
+            var data = context.Where(x => x.Status != EntityStatus.Deleted && userTypeIds.Contains(x.UserTypeId));
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
             return PagedList<TblUser>.ToPagedList(filterData, queryParameters.CurrentPage, queryParameters.PageSize);
         }

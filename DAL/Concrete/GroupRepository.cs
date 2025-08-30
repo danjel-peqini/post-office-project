@@ -1,5 +1,6 @@
 using DAL.Contracts;
 using Entities.Models;
+using Helpers;
 using Helpers.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace DAL.Concrete
         public PagedList<TblGroup> GetGroups(QueryParameters queryParameters)
         {
             var data = context
+                .Where(g => g.Status != EntityStatus.Deleted)
                 .Include(g => g.Course)
                 .Include(g => g.AcademicYear)
                 .Include(g => g.TblGroupStudents);
@@ -30,7 +32,7 @@ namespace DAL.Concrete
                 .Include(g => g.Course)
                 .Include(g => g.AcademicYear)
                 .Include(g => g.TblGroupStudents)
-                .FirstOrDefault(g => g.Id == id);
+                .FirstOrDefault(g => g.Id == id && g.Status != EntityStatus.Deleted);
         }
     }
 }

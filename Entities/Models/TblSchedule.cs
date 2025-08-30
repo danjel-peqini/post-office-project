@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Helpers;
 
@@ -21,6 +21,7 @@ namespace Entities.Models
         public DateTimeOffset StartTime { get; set; }
         public DateTimeOffset EndTime { get; set; }
         public RoomType ScheduleType { get; set; }
+        public EntityStatus Status { get; set; }
 
         public virtual TblCourse Course { get; set; } = null!;
         public virtual TblGroup Group { get; set; } = null!;

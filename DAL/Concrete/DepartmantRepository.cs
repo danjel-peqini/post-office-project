@@ -1,5 +1,6 @@
-﻿using DAL.Contracts;
+using DAL.Contracts;
 using Entities.Models;
+using Helpers;
 using Helpers.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,7 +19,7 @@ namespace DAL.Concrete
         }
         public PagedList<TblDepartment> GetDeparttmants(QueryParameters queryParameters)
         {
-            var data = context.Where(x => x.IsActive);
+            var data = context.Where(x => x.Status != EntityStatus.Deleted);
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
             return PagedList<TblDepartment>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);
 

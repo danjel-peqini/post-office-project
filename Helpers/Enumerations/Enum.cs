@@ -32,7 +32,8 @@ namespace Helpers
     {
         Active = 1,
         Inactive = 2,
-        Disabled = 3
+        Disabled = 3,
+        Deleted = 4
     }
     public enum DayOfWeek
     {

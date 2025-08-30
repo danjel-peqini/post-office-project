@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace Entities.Models
 {
@@ -16,7 +17,7 @@ namespace Entities.Models
         public string Abbreviation { get; set; } = null!;
         public string? Description { get; set; } = null;
         public DateTimeOffset? CreatedDate { get; set; }
-        public bool IsActive { get; set; }
+        public EntityStatus Status { get; set; }
 
         public virtual ICollection<TblCourse> TblCourses { get; set; }
         public virtual ICollection<TblStudentCard> TblStudentCards { get; set; }

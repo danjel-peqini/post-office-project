@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace Entities.Models
 {
@@ -15,7 +16,7 @@ namespace Entities.Models
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
         public Guid DepartmentId { get; set; }
-        public bool IsActive { get; set; }
+        public EntityStatus Status { get; set; }
         public int Credits { get; set; }
         public int? TotalHours { get; set; }
 

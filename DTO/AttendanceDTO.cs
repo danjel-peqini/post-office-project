@@ -1,4 +1,5 @@
 using System;
+using Helpers;
 
 namespace DTO
 {
@@ -9,6 +10,7 @@ namespace DTO
         public Guid StudentId { get; set; }
         public DateTimeOffset CheckInTime { get; set; }
         public string CheckedInBy { get; set; } = null!;
+        public EntityStatus Status { get; set; }
     }
 
     public class AttendanceCheckInDTO

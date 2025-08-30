@@ -4,6 +4,7 @@ using DAL.UoW;
 using Domain.Contracts;
 using DTO;
 using Entities.Models;
+using Helpers;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Http;
 
@@ -21,6 +22,7 @@ namespace Domain.Concrete
         {
             var entity = _mapper.Map<TblSchedule>(schedule);
             entity.Id = Guid.NewGuid();
+            entity.Status = schedule.Status ?? EntityStatus.Active;
             ScheduleRepository.Add(entity);
             _unitOfWork.Save();
         }
@@ -73,6 +75,8 @@ namespace Domain.Concrete
                 entity.EndTime = schedule.EndTime.Value;
             if (schedule.ScheduleType.HasValue)
                 entity.ScheduleType = schedule.ScheduleType.Value;
+            if (schedule.Status.HasValue)
+                entity.Status = schedule.Status.Value;
             ScheduleRepository.SetModified(entity);
             _unitOfWork.Save();
             return _mapper.Map<ScheduleDTO>(entity);

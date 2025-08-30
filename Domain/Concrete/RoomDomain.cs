@@ -4,6 +4,7 @@ using DAL.UoW;
 using Domain.Contracts;
 using DTO;
 using Entities.Models;
+using Helpers;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Http;
 
@@ -21,6 +22,7 @@ namespace Domain.Concrete
         {
             var entity = _mapper.Map<TblRoom>(roomPostDTO);
             entity.Id = Guid.NewGuid();
+            entity.Status = roomPostDTO.Status ?? EntityStatus.Active;
             RoomRepository.Add(entity);
             _unitOfWork.Save();
         }
@@ -61,6 +63,8 @@ namespace Domain.Concrete
                 entity.RoomType = roomPostDTO.RoomType.Value;
             if (roomPostDTO.SeatsNumber.HasValue)
                 entity.SeatsNumber = roomPostDTO.SeatsNumber.Value;
+            if (roomPostDTO.Status.HasValue)
+                entity.Status = roomPostDTO.Status.Value;
             RoomRepository.SetModified(entity);
             _unitOfWork.Save();
             return _mapper.Map<RoomDTO>(entity);

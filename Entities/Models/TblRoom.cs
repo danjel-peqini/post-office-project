@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Helpers;
 
@@ -15,6 +15,7 @@ namespace Entities.Models
         public string Name { get; set; } = null!;
         public RoomType RoomType { get; set; }
         public int? SeatsNumber { get; set; }
+        public EntityStatus Status { get; set; }
 
         public virtual ICollection<TblSchedule> TblSchedules { get; set; }
     }

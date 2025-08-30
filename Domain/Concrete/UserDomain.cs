@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using DAL.Contracts;
 using DAL.UoW;
 using Domain.Contracts;
@@ -264,7 +264,7 @@ namespace Domain.Concrete
             {
                 var mapper = _mapper.Map<TblUserType>(userTypePostDTO);
                 mapper.Id = Guid.NewGuid();
-                mapper.IsActive = true;
+                mapper.Status = EntityStatus.Active;
                 UserTypeRepository.Add(mapper);
                 _unitOfWork.Save();
             }
