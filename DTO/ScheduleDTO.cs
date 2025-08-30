@@ -15,6 +15,12 @@ namespace DTO
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public RoomType ScheduleType { get; set; }
+
+        public GroupDTO Group { get; set; }
+        public CourseDTO Course { get; set; }
+        public TeacherDTO Teacher { get; set; }
+        public RoomDTO Room { get; set; }
+        public AcademicYearDTO AcademicYear { get; set; }
     }
 
     public class SchedulePostDTO
