@@ -35,6 +35,11 @@ namespace PostOfficeProject.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("{id}/students")]
+        public IActionResult GetStudents([FromRoute] Guid id)
+            => Ok(_groupDomain.GetStudents(id));
+
         [HttpPost]
         [Route("{id}/students")]
         public IActionResult AddStudents([FromRoute] Guid id, [FromBody] GroupStudentPostDTO dto)
