@@ -33,8 +33,16 @@ namespace Domain.Mappings
             CreateMap<TblDepartment, DepartmantPostDTO>().ReverseMap();
             #endregion
             #region course
-            CreateMap<TblCourse, CourseDTO>().ReverseMap();
-            CreateMap<TblCourse, CoursePostDTO>().ReverseMap();
+            CreateMap<TblCourse, CourseDTO>()
+                .ForMember(dest => dest.Departmant, opt => opt.MapFrom(src => src.Department))
+                .ReverseMap()
+                .ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Departmant));
+
+            CreateMap<TblCourse, CoursePostDTO>()
+                .ForMember(dest => dest.DepartmantId, opt => opt.MapFrom(src => src.DepartmentId))
+                .ReverseMap()
+                .ForMember(dest => dest.DepartmentId, opt => opt.MapFrom(src => src.DepartmantId));
+
             CreateMap<CoursePostDTO, CourseDTO>().ReverseMap();
             #endregion
             #region rooms

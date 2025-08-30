@@ -1,6 +1,7 @@
 using DAL.Contracts;
 using Entities.Models;
 using Helpers.Pagination;
+using Microsoft.EntityFrameworkCore;
 using static Helpers.Pagination.QueryParameters;
 
 namespace DAL.Concrete
@@ -13,9 +14,18 @@ namespace DAL.Concrete
 
         public PagedList<TblCourse> GetCourses(QueryParameters queryParameters)
         {
-            var data = context.Where(x => x.IsActive);
+            var data = context
+                .Include(x => x.Department)
+                .Where(x => x.IsActive);
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
             return PagedList<TblCourse>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);
+        }
+
+        public override TblCourse GetById(Guid id)
+        {
+            return context
+                .Include(x => x.Department)
+                .FirstOrDefault(x => x.Id == id);
         }
     }
 }
