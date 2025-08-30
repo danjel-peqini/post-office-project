@@ -10,5 +10,6 @@ namespace Domain.Contracts
         TeacherDTO AddNew(TeacherPostDTO teacherPostDTO);
         TeacherDTO Update(Guid id, TeacherPostDTO teacherPostDTO);
         void Delete(Guid id);
+        void DeleteByUserId(Guid userId);
     }
 }

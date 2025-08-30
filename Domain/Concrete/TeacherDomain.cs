@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using DAL.Contracts;
 using DAL.UoW;
@@ -43,6 +44,18 @@ namespace Domain.Concrete
             }
             TeacherRepository.Remove(id);
             UserRepository.Remove(teacher.UserId);
+            _unitOfWork.Save();
+        }
+
+        public void DeleteByUserId(Guid userId)
+        {
+            var teacher = TeacherRepository.Find(t => t.UserId == userId).FirstOrDefault();
+            if (teacher == null)
+            {
+                throw new Exception("Teacher not found");
+            }
+            TeacherRepository.Remove(teacher.Id);
+            UserRepository.Remove(userId);
             _unitOfWork.Save();
         }
 

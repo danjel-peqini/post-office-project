@@ -46,5 +46,13 @@ namespace PostOfficeProject.Controllers
             _teacherDomain.Delete(id);
             return Ok();
         }
+
+        [HttpDelete]
+        [Route("user/{userId}")]
+        public IActionResult DeleteByUserId([FromRoute] Guid userId)
+        {
+            _teacherDomain.DeleteByUserId(userId);
+            return Ok();
+        }
     }
 }
