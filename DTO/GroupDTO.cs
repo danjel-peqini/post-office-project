@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace DTO
 {
@@ -15,5 +16,6 @@ namespace DTO
         public string? Name { get; set; }
         public Guid? CourseId { get; set; }
         public Guid? AcademicYearId { get; set; }
+        public List<Guid>? StudentIds { get; set; }
     }
 }

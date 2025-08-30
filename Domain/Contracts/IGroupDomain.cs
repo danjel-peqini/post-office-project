@@ -1,3 +1,4 @@
+using System;
 using DTO;
 using Helpers.Pagination;
 
@@ -10,5 +11,7 @@ namespace Domain.Contracts
         void AddNew(GroupPostDTO group);
         GroupDTO Update(Guid id, GroupPostDTO group);
         void Delete(Guid id);
+        void AddStudents(Guid groupId, GroupStudentPostDTO dto);
+        void RemoveStudents(Guid groupId, GroupStudentPostDTO dto);
     }
 }
