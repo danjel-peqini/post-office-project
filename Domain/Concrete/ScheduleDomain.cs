@@ -71,6 +71,8 @@ namespace Domain.Concrete
                 entity.StartTime = schedule.StartTime.Value;
             if (schedule.EndTime.HasValue)
                 entity.EndTime = schedule.EndTime.Value;
+            if (schedule.ScheduleType.HasValue)
+                entity.ScheduleType = schedule.ScheduleType.Value;
             ScheduleRepository.SetModified(entity);
             _unitOfWork.Save();
             return _mapper.Map<ScheduleDTO>(entity);

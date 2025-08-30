@@ -1,4 +1,5 @@
 using System;
+using Helpers;
 
 namespace DTO
 {
@@ -13,6 +14,7 @@ namespace DTO
         public int DayOfWeek { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
+        public ScheduleType ScheduleType { get; set; }
     }
 
     public class SchedulePostDTO
@@ -25,5 +27,6 @@ namespace DTO
         public int? DayOfWeek { get; set; }
         public TimeSpan? StartTime { get; set; }
         public TimeSpan? EndTime { get; set; }
+        public ScheduleType? ScheduleType { get; set; }
     }
 }

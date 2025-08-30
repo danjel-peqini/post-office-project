@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace Entities.Models
 {
@@ -19,6 +20,7 @@ namespace Entities.Models
         public int DayOfWeek { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
+        public ScheduleType ScheduleType { get; set; }
 
         public virtual TblCourse Course { get; set; } = null!;
         public virtual TblGroup Group { get; set; } = null!;

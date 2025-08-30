@@ -27,6 +27,13 @@ namespace Helpers
         SEMINAR = 3
     }
 
+    public enum ScheduleType
+    {
+        Leksion = 1,
+        SEMINAR = 2,
+        LAborator = 3
+    }
+
     public enum EntityStatus
     {
         Active = 1,
