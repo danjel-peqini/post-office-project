@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace Entities.Models
 {
@@ -10,6 +11,7 @@ namespace Entities.Models
         public Guid CourseId { get; set; }
         public double Percentage { get; set; }
         public DateTime SentAt { get; set; }
+        public EntityStatus Status { get; set; }
 
         public virtual TblCourse Course { get; set; } = null!;
         public virtual TblStudentCard Student { get; set; } = null!;

@@ -7,6 +7,7 @@ using DAL.UoW;
 using Domain.Contracts;
 using DTO;
 using Entities.Models;
+using Helpers;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Http;
 
@@ -25,6 +26,7 @@ namespace Domain.Concrete
         {
             var entity = _mapper.Map<TblGroup>(group);
             entity.Id = Guid.NewGuid();
+            entity.Status = group.Status ?? EntityStatus.Active;
             GroupRepository.Add(entity);
             if (group.StudentIds != null && group.StudentIds.Any())
             {
@@ -88,6 +90,8 @@ namespace Domain.Concrete
                 entity.CourseId = group.CourseId.Value;
             if (group.AcademicYearId.HasValue)
                 entity.AcademicYearId = group.AcademicYearId.Value;
+            if (group.Status.HasValue)
+                entity.Status = group.Status.Value;
             GroupRepository.SetModified(entity);
             _unitOfWork.Save();
             return _mapper.Map<GroupDTO>(entity);

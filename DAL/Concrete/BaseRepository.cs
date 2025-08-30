@@ -1,4 +1,5 @@
 ﻿using DAL.Contracts;
+using Helpers;
 using Helpers.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -55,12 +56,28 @@ namespace DAL.Concrete
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return context.ToList(); //.AsEnumerable();
+            var result = context.AsQueryable();
+            var statusProperty = typeof(TEntity).GetProperty("Status");
+            if (statusProperty != null && statusProperty.PropertyType == typeof(EntityStatus))
+            {
+                result = result.Where(e => EF.Property<EntityStatus>(e, "Status") != EntityStatus.Deleted);
+            }
+            return result.ToList();
         }
 
         public virtual TEntity GetById(TKey id)
         {
-            return context.Find(id);
+            var entity = context.Find(id);
+            var statusProperty = typeof(TEntity).GetProperty("Status");
+            if (statusProperty != null && statusProperty.PropertyType == typeof(EntityStatus) && entity != null)
+            {
+                var status = (EntityStatus)statusProperty.GetValue(entity);
+                if (status == EntityStatus.Deleted)
+                {
+                    return null;
+                }
+            }
+            return entity;
         }
 
         public void PatchUpdate(TEntity entity, string[] fieldsToUpdate)
@@ -81,10 +98,12 @@ namespace DAL.Concrete
         public virtual void Remove(TEntity entity)
         {
             context.Attach(entity);
-            var statusProperty = entity.GetType().GetProperty("StatusId");
+            var statusProperty = entity.GetType().GetProperty("Status");
 
-            if (statusProperty != null)
+            if (statusProperty != null && statusProperty.PropertyType == typeof(EntityStatus))
             {
+                statusProperty.SetValue(entity, EntityStatus.Deleted);
+                SetModified(entity);
             }
             else
             {

@@ -7,6 +7,7 @@ using DAL.UoW;
 using Domain.Contracts;
 using DTO;
 using Entities.Models;
+using Helpers;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Http;
 
@@ -28,6 +29,7 @@ namespace Domain.Concrete
 
             var entity = _mapper.Map<TblTeacher>(teacherPostDTO);
             entity.Id = Guid.NewGuid();
+            entity.Status = teacherPostDTO.Status ?? EntityStatus.Active;
             TeacherRepository.Add(entity);
             _unitOfWork.Save();
 
@@ -85,6 +87,8 @@ namespace Domain.Concrete
             }
             if (teacherPostDTO.UserId.HasValue)
                 entity.UserId = teacherPostDTO.UserId.Value;
+            if (teacherPostDTO.Status.HasValue)
+                entity.Status = teacherPostDTO.Status.Value;
             TeacherRepository.SetModified(entity);
             _unitOfWork.Save();
 

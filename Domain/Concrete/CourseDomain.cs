@@ -4,6 +4,7 @@ using DAL.UoW;
 using Domain.Contracts;
 using DTO;
 using Entities.Models;
+using Helpers;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Http;
 
@@ -21,8 +22,7 @@ namespace Domain.Concrete
         {
             var entity = _mapper.Map<TblCourse>(course);
             entity.Id = Guid.NewGuid();
-            if (!course.IsActive.HasValue)
-                entity.IsActive = true;
+            entity.Status = course.Status ?? EntityStatus.Active;
             CourseRepository.Add(entity);
             _unitOfWork.Save();
         }
@@ -63,8 +63,8 @@ namespace Domain.Concrete
                 entity.Credits = course.Credits.Value;
             if (course.TotalHours.HasValue)
                 entity.TotalHours = course.TotalHours.Value;
-            if (course.IsActive.HasValue)
-                entity.IsActive = course.IsActive.Value;
+            if (course.Status.HasValue)
+                entity.Status = course.Status.Value;
             if (course.DepartmantId.HasValue)
                 entity.DepartmentId = course.DepartmantId.Value;
             CourseRepository.SetModified(entity);

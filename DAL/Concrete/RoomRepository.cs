@@ -1,5 +1,6 @@
 using DAL.Contracts;
 using Entities.Models;
+using Helpers;
 using Helpers.Pagination;
 using static Helpers.Pagination.QueryParameters;
 
@@ -13,7 +14,7 @@ namespace DAL.Concrete
 
         public PagedList<TblRoom> GetRooms(QueryParameters queryParameters)
         {
-            var data = context;
+            var data = context.Where(x => x.Status != EntityStatus.Deleted);
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
             return PagedList<TblRoom>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);
         }

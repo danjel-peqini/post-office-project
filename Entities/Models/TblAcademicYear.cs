@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace Entities.Models
 {
@@ -13,9 +14,9 @@ namespace Entities.Models
         }
 
         public Guid Id { get; set; }
-        public int StartingYear { get; set; } 
+        public int StartingYear { get; set; }
         public string Year { get; set; } = null!;
-        public bool? IsActive { get; set; }
+        public EntityStatus Status { get; set; }
 
         public virtual ICollection<TblGroup> TblGroups { get; set; }
         public virtual ICollection<TblStudentCard> TblStudentCards { get; set; }

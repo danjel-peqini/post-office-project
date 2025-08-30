@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -62,6 +62,8 @@ namespace Entities.Models
 
                 entity.Property(e => e.SentAt).HasColumnType("datetime");
 
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.TblAbsenceWarnings)
                     .HasForeignKey(d => d.CourseId)
@@ -84,7 +86,7 @@ namespace Entities.Models
 
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Year).HasMaxLength(20);
             });
@@ -103,6 +105,8 @@ namespace Entities.Models
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CheckedInBy).HasMaxLength(50);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.Session)
                     .WithMany(p => p.TblAttendances)
@@ -123,7 +127,7 @@ namespace Entities.Models
 
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Name).HasMaxLength(100);
 
@@ -142,7 +146,7 @@ namespace Entities.Models
 
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Name).HasMaxLength(100);
 
@@ -157,6 +161,8 @@ namespace Entities.Models
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.AcademicYear)
                     .WithMany(p => p.TblGroups)
@@ -203,6 +209,8 @@ namespace Entities.Models
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
             });
 
             modelBuilder.Entity<TblSchedule>(entity =>
@@ -210,6 +218,8 @@ namespace Entities.Models
                 entity.ToTable("tblSchedule");
 
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.TblSchedules)
@@ -264,6 +274,8 @@ namespace Entities.Models
                 entity.Property(e => e.OtpcreatedAt)
                     .HasColumnType("datetime")
                     .HasColumnName("OTPCreatedAt");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.Schedule)
                     .WithMany(p => p.TblSessions)
@@ -321,6 +333,8 @@ namespace Entities.Models
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.User)
                     .WithOne(p => p.TblTeacher)
@@ -384,6 +398,8 @@ namespace Entities.Models
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
             });
 
             OnModelCreatingPartial(modelBuilder);

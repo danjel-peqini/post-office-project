@@ -9,6 +9,7 @@ namespace DTO
         public string Name { get; set; }
         public RoomType RoomType { get; set; }
         public int? SeatsNumber { get; set; }
+        public EntityStatus Status { get; set; }
     }
 
     public class RoomPostDTO
@@ -16,5 +17,6 @@ namespace DTO
         public string? Name { get; set; }
         public RoomType? RoomType { get; set; }
         public int? SeatsNumber { get; set; }
+        public EntityStatus? Status { get; set; }
     }
 }

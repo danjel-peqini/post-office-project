@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace DTO
 {
@@ -13,6 +14,7 @@ namespace DTO
         public AcademicYearDTO AcademicYear { get; set; }
         public List<Guid> StudentIds { get; set; }
         public int StudentsLength { get; set; }
+        public EntityStatus Status { get; set; }
     }
 
     public class GroupPostDTO
@@ -21,5 +23,6 @@ namespace DTO
         public Guid? CourseId { get; set; }
         public Guid? AcademicYearId { get; set; }
         public List<Guid>? StudentIds { get; set; }
+        public EntityStatus? Status { get; set; }
     }
 }

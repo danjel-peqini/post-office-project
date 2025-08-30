@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Helpers;
 
 namespace DTO.PostOfficeDTO
 {
@@ -12,7 +13,7 @@ namespace DTO.PostOfficeDTO
         public string? Name { get; set; }
         public string? address { get; set; }
         public string? postalCode { get; set; }
-        public bool? IsActive { get; set; }
+        public EntityStatus Status { get; set; }
     }
     public class PostOfficePostDTO
     {

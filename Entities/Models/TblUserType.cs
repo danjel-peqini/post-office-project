@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using Helpers;
 
 namespace Entities.Models
 {
@@ -12,7 +13,7 @@ namespace Entities.Models
 
         public Guid Id { get; set; }
         public string? Name { get; set; }
-        public bool? IsActive { get; set; }
+        public EntityStatus Status { get; set; }
 
         public virtual ICollection<TblUser> TblUsers { get; set; }
     }

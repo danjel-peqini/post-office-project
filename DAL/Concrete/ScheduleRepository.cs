@@ -1,5 +1,6 @@
 using DAL.Contracts;
 using Entities.Models;
+using Helpers;
 using Helpers.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace DAL.Concrete
         public PagedList<TblSchedule> GetSchedules(QueryParameters queryParameters)
         {
             var data = context
+                .Where(s => s.Status != EntityStatus.Deleted)
                 .Include(s => s.Course).ThenInclude(c => c.Department)
                 .Include(s => s.Group).ThenInclude(g => g.Course).ThenInclude(c => c.Department)
                 .Include(s => s.Group).ThenInclude(g => g.AcademicYear)
@@ -37,7 +39,7 @@ namespace DAL.Concrete
                 .Include(s => s.Teacher).ThenInclude(t => t.User)
                 .Include(s => s.Room)
                 .Include(s => s.AcademicYear)
-                .FirstOrDefault(s => s.Id == id);
+                .FirstOrDefault(s => s.Id == id && s.Status != EntityStatus.Deleted);
         }
     }
 }

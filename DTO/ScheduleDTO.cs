@@ -15,6 +15,7 @@ namespace DTO
         public DateTimeOffset StartTime { get; set; }
         public DateTimeOffset EndTime { get; set; }
         public RoomType ScheduleType { get; set; }
+        public EntityStatus Status { get; set; }
 
         public GroupDTO Group { get; set; }
         public CourseDTO Course { get; set; }
@@ -34,5 +35,6 @@ namespace DTO
         public DateTimeOffset? StartTime { get; set; }
         public DateTimeOffset? EndTime { get; set; }
         public RoomType? ScheduleType { get; set; }
+        public EntityStatus? Status { get; set; }
     }
 }
