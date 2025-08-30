@@ -3,6 +3,7 @@ using DI;
 using Domain.Mappings;
 using Entities.Models;
 using Helpers.Email;
+using HumanResourceProject.Middlewares;
 using Lamar.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -106,6 +107,7 @@ builder.Host.UseLamar((context, registry) =>
 
 
 var app = builder.Build();
+app.UseExceptionHandling();
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
