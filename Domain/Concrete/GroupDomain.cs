@@ -28,13 +28,25 @@ namespace Domain.Concrete
             GroupRepository.Add(entity);
             if (group.StudentIds != null && group.StudentIds.Any())
             {
-                var groupStudents = group.StudentIds.Select(studentId => new TblGroupStudent
-                {
-                    Id = Guid.NewGuid(),
-                    GroupId = entity.Id,
-                    StudentId = studentId
-                });
-                GroupStudentRepository.AddRange(groupStudents);
+                var uniqueIds = group.StudentIds.Distinct().ToList();
+
+                var existingIds = GroupStudentRepository
+                    .Find(x => x.GroupId == entity.Id && uniqueIds.Contains(x.StudentId))
+                    .Select(x => x.StudentId)
+                    .ToHashSet();
+
+                var entities = uniqueIds
+                    .Where(id => !existingIds.Contains(id))
+                    .Select(id => new TblGroupStudent
+                    {
+                        Id = Guid.NewGuid(),
+                        GroupId = entity.Id,
+                        StudentId = id
+                    })
+                    .ToList();
+
+                if (entities.Any())
+                    GroupStudentRepository.AddRange(entities);
             }
             _unitOfWork.Save();
         }
@@ -90,12 +102,25 @@ namespace Domain.Concrete
             if (dto.StudentIds == null || !dto.StudentIds.Any())
                 return;
 
-            var entities = dto.StudentIds.Select(id => new TblGroupStudent
-            {
-                Id = Guid.NewGuid(),
-                GroupId = groupId,
-                StudentId = id
-            });
+            var existingIds = GroupStudentRepository
+                .Find(x => x.GroupId == groupId && dto.StudentIds.Contains(x.StudentId))
+                .Select(x => x.StudentId)
+                .ToHashSet();
+
+            var entities = dto.StudentIds
+                .Where(id => !existingIds.Contains(id))
+                .Distinct()
+                .Select(id => new TblGroupStudent
+                {
+                    Id = Guid.NewGuid(),
+                    GroupId = groupId,
+                    StudentId = id
+                })
+                .ToList();
+
+            if (!entities.Any())
+                return;
+
             GroupStudentRepository.AddRange(entities);
             _unitOfWork.Save();
         }
