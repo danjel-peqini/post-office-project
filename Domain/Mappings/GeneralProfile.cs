@@ -70,6 +70,13 @@ namespace Domain.Mappings
             CreateMap<TblAttendance, AttendanceDTO>().ReverseMap();
             CreateMap<TblAttendance, AttendanceCheckInDTO>().ReverseMap();
             #endregion
+            #region teachers
+            CreateMap<TblTeacher, TeacherDTO>()
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
+                .ReverseMap()
+                .ForMember(dest => dest.User, opt => opt.Ignore());
+            CreateMap<TblTeacher, TeacherPostDTO>().ReverseMap();
+            #endregion
             #region groups
             CreateMap<TblGroup, GroupDTO>()
                 .ForMember(dest => dest.Course, opt => opt.MapFrom(src => src.Course))

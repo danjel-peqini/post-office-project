@@ -25,6 +25,7 @@ namespace Domain.DI
             For<ICourseDomain>().Use<CourseDomain>();
             For<IStudentCardDomain>().Use<StudentCardDomain>();
             For<IGroupDomain>().Use<GroupDomain>();
+            For<ITeacherDomain>().Use<TeacherDomain>();
             For<IScheduleDomain>().Use<ScheduleDomain>();
 
             AddRepositoryRegistries();
