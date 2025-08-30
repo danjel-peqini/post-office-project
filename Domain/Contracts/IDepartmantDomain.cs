@@ -15,7 +15,8 @@ namespace Domain.Contracts
         Pagination<DepartmantDTO> GetAllDepartmants(QueryParameters queryParameters);
         DepartmantDTO GetDepartmantBtyd(Guid id);
         void AddNew(DepartmantPostDTO departmantPostDTO);
-        void delete(Guid id);
+        void Delete(Guid id);
+        DepartmantDTO Update(Guid id, DepartmantPostDTO departmantPostDTO);
         CourseDTO addCourse(CoursePostDTO course, Guid departmantId);
         CourseDTO updateCourse(CoursePostDTO course, Guid courseId);
 

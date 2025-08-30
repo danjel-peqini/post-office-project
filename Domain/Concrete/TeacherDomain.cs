@@ -18,6 +18,7 @@ namespace Domain.Concrete
         }
 
         private ITeacherRepository TeacherRepository => _unitOfWork.GetRepository<ITeacherRepository>();
+        private IUserRepository UserRepository => _unitOfWork.GetRepository<IUserRepository>();
 
         public TeacherDTO AddNew(TeacherPostDTO teacherPostDTO)
         {
@@ -35,7 +36,13 @@ namespace Domain.Concrete
 
         public void Delete(Guid id)
         {
+            var teacher = TeacherRepository.GetById(id);
+            if (teacher == null)
+            {
+                throw new Exception("Teacher not found");
+            }
             TeacherRepository.Remove(id);
+            UserRepository.Remove(teacher.UserId);
             _unitOfWork.Save();
         }
 

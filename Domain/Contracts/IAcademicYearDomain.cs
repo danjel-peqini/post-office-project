@@ -9,5 +9,6 @@ namespace Domain.Contracts
         AcademicYearDTO GetAcademicYearById(Guid id);
         void AddNew(AcademicYearPostDTO academicYearPostDTO);
         AcademicYearDTO Update(Guid id, AcademicYearPostDTO academicYearPostDTO);
+        void Delete(Guid id);
     }
 }
