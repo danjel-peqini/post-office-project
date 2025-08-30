@@ -28,14 +28,26 @@ namespace Domain.Concrete
             GroupRepository.Add(entity);
             if (group.StudentIds != null && group.StudentIds.Any())
             {
-                var uniqueIds = group.StudentIds.Distinct();
-                var groupStudents = uniqueIds.Select(studentId => new TblGroupStudent
-                {
-                    Id = Guid.NewGuid(),
-                    GroupId = entity.Id,
-                    StudentId = studentId
-                });
-                GroupStudentRepository.AddRange(groupStudents);
+                var uniqueIds = group.StudentIds.Distinct().ToList();
+
+                var existingIds = GroupStudentRepository
+                    .Find(x => x.GroupId == entity.Id && uniqueIds.Contains(x.StudentId))
+                    .Select(x => x.StudentId)
+                    .ToHashSet();
+
+                var entities = uniqueIds
+                    .Where(id => !existingIds.Contains(id))
+                    .Select(id => new TblGroupStudent
+                    {
+                        Id = Guid.NewGuid(),
+                        GroupId = entity.Id,
+                        StudentId = id
+                    })
+                    .ToList();
+
+                if (entities.Any())
+                    GroupStudentRepository.AddRange(entities);
+
             }
             _unitOfWork.Save();
         }
