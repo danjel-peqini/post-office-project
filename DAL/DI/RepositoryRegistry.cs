@@ -25,6 +25,7 @@ namespace DAL.DI
             For<IStudentCardRepository>().Use<StudentCardRepository>();
             For<IGroupRepository>().Use<GroupRepository>();
             For<IGroupStudentRepository>().Use<GroupStudentRepository>();
+            For<ITeacherRepository>().Use<TeacherRepository>();
             For<IScheduleRepository>().Use<ScheduleRepository>();
             //    For<IHistoryRepository>().Use<HistoryRepository>();
             //    For<IPostOfficeRepository>().Use<PostOfficeRepository>();
