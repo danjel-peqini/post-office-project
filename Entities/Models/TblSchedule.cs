@@ -18,8 +18,8 @@ namespace Entities.Models
         public Guid RoomId { get; set; }
         public Guid AcademicYearId { get; set; }
         public Helpers.DayOfWeek DayOfWeek { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTimeOffset StartTime { get; set; }
+        public DateTimeOffset EndTime { get; set; }
         public RoomType ScheduleType { get; set; }
 
         public virtual TblCourse Course { get; set; } = null!;
