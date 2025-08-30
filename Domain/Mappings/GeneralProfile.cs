@@ -61,6 +61,14 @@ namespace Domain.Mappings
             CreateMap<TblAttendance, AttendanceDTO>().ReverseMap();
             CreateMap<TblAttendance, AttendanceCheckInDTO>().ReverseMap();
             #endregion
+            #region groups
+            CreateMap<TblGroup, GroupDTO>().ReverseMap();
+            CreateMap<TblGroup, GroupPostDTO>().ReverseMap();
+            #endregion
+            #region schedules
+            CreateMap<TblSchedule, ScheduleDTO>().ReverseMap();
+            CreateMap<TblSchedule, SchedulePostDTO>().ReverseMap();
+            #endregion
         }
 
 
