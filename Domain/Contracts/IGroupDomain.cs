@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DTO;
 using Helpers.Pagination;
 
@@ -13,5 +14,6 @@ namespace Domain.Contracts
         void Delete(Guid id);
         void AddStudents(Guid groupId, GroupStudentPostDTO dto);
         void RemoveStudents(Guid groupId, GroupStudentPostDTO dto);
+        IEnumerable<Guid> GetStudents(Guid groupId);
     }
 }

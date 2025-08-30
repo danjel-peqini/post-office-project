@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using DAL.Contracts;
@@ -108,6 +109,11 @@ namespace Domain.Concrete
                 .ToList();
             GroupStudentRepository.RemoveRange(entities);
             _unitOfWork.Save();
+        }
+
+        public IEnumerable<Guid> GetStudents(Guid groupId)
+        {
+            return GroupStudentRepository.GetStudentIdsByGroupId(groupId);
         }
     }
 }

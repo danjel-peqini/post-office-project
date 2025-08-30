@@ -9,6 +9,10 @@ namespace DTO
         public string Name { get; set; }
         public Guid CourseId { get; set; }
         public Guid AcademicYearId { get; set; }
+        public CourseDTO Course { get; set; }
+        public AcademicYearDTO AcademicYear { get; set; }
+        public List<Guid> StudentIds { get; set; }
+        public int StudentsLength { get; set; }
     }
 
     public class GroupPostDTO

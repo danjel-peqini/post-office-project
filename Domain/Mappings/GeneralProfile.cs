@@ -9,6 +9,7 @@ using DTO.UserDTO;
 using DTO.UserTypeDTO;
 using Entities.Models;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Domain.Mappings
 {
@@ -70,7 +71,15 @@ namespace Domain.Mappings
             CreateMap<TblAttendance, AttendanceCheckInDTO>().ReverseMap();
             #endregion
             #region groups
-            CreateMap<TblGroup, GroupDTO>().ReverseMap();
+            CreateMap<TblGroup, GroupDTO>()
+                .ForMember(dest => dest.Course, opt => opt.MapFrom(src => src.Course))
+                .ForMember(dest => dest.AcademicYear, opt => opt.MapFrom(src => src.AcademicYear))
+                .ForMember(dest => dest.StudentIds, opt => opt.MapFrom(src => src.TblGroupStudents.Select(gs => gs.StudentId)))
+                .ForMember(dest => dest.StudentsLength, opt => opt.MapFrom(src => src.TblGroupStudents.Count))
+                .ReverseMap()
+                .ForMember(dest => dest.Course, opt => opt.Ignore())
+                .ForMember(dest => dest.AcademicYear, opt => opt.Ignore())
+                .ForMember(dest => dest.TblGroupStudents, opt => opt.Ignore());
             CreateMap<TblGroup, GroupPostDTO>().ReverseMap();
             #endregion
             #region schedules
