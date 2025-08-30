@@ -57,5 +57,16 @@ namespace Domain.Concrete
             _unitOfWork.Save();
             return _mapper.Map<AcademicYearDTO>(entity);
         }
+
+        public void Delete(Guid id)
+        {
+            var entity = AcademicYearRepository.GetById(id);
+            if (entity == null)
+            {
+                throw new Exception("Academic year not found");
+            }
+            AcademicYearRepository.Remove(id);
+            _unitOfWork.Save();
+        }
     }
 }

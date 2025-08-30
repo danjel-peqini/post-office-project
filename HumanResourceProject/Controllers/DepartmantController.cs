@@ -35,11 +35,16 @@ namespace PostOfficeProject.Controllers
         }
         [HttpDelete]
         [Route("{departmantId}")]
-        public IActionResult delete([FromRoute] Guid departmantId)
+        public IActionResult Delete([FromRoute] Guid departmantId)
         {
-            _departmantDomain.delete(departmantId);
+            _departmantDomain.Delete(departmantId);
             return Ok();
         }
+
+        [HttpPatch]
+        [Route("{departmantId}")]
+        public IActionResult Update([FromRoute] Guid departmantId, [FromBody] DepartmantPostDTO departmant)
+            => Ok(_departmantDomain.Update(departmantId, departmant));
         [HttpPost]
         [Route("{departmantId}/course")]
         public IActionResult addCourse([FromRoute] Guid departmantId, [FromBody] CoursePostDTO course)

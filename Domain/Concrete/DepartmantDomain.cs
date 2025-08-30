@@ -59,12 +59,14 @@ namespace Domain.Concrete
             }
         }
 
-        public void delete(Guid id)
+        public void Delete(Guid id)
         {
             try
             {
                 DepartmantRepository.Remove(id);
-            }catch (Exception ex)
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -85,6 +87,33 @@ namespace Domain.Concrete
                 throw new Exception("Departmant not found");
             }
             return _mapper.Map<DepartmantDTO>(entity);
+        }
+
+        public DepartmantDTO Update(Guid id, DepartmantPostDTO departmantPostDTO)
+        {
+            try
+            {
+                var entity = DepartmantRepository.GetById(id);
+                if (entity == null)
+                {
+                    throw new Exception("Departmant not found");
+                }
+                if (!string.IsNullOrWhiteSpace(departmantPostDTO.Name))
+                    entity.Name = departmantPostDTO.Name;
+                if (!string.IsNullOrWhiteSpace(departmantPostDTO.Abbreviation))
+                    entity.Abbreviation = departmantPostDTO.Abbreviation;
+                if (!string.IsNullOrWhiteSpace(departmantPostDTO.Description))
+                    entity.Description = departmantPostDTO.Description;
+                if (departmantPostDTO.CreatedDate.HasValue)
+                    entity.CreatedDate = departmantPostDTO.CreatedDate.Value;
+                DepartmantRepository.SetModified(entity);
+                _unitOfWork.Save();
+                return _mapper.Map<DepartmantDTO>(entity);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public CourseDTO updateCourse(CoursePostDTO course, Guid courseId)

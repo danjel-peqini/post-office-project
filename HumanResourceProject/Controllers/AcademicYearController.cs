@@ -39,5 +39,13 @@ namespace PostOfficeProject.Controllers
         [Route("{id}")]
         public IActionResult Update([FromRoute] Guid id, [FromBody] AcademicYearPostDTO dto)
             => Ok(_academicYearDomain.Update(id, dto));
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] Guid id)
+        {
+            _academicYearDomain.Delete(id);
+            return Ok();
+        }
     }
 }
