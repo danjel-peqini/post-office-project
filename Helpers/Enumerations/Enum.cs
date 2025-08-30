@@ -27,17 +27,21 @@ namespace Helpers
         SEMINAR = 3
     }
 
-    public enum ScheduleType
-    {
-        Leksion = 1,
-        SEMINAR = 2,
-        LAborator = 3
-    }
 
     public enum EntityStatus
     {
         Active = 1,
         Inactive = 2,
         Disabled = 3
+    }
+    public enum DayOfWeek
+    {
+        Sunday = 0,
+        Monday = 1,
+        Tuesday = 2,
+        Wednesday = 3,
+        Thursday = 4,
+        Friday = 5,
+        Saturday = 6
     }
 }
