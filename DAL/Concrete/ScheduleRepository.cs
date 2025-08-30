@@ -1,6 +1,8 @@
 using DAL.Contracts;
 using Entities.Models;
 using Helpers.Pagination;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using static Helpers.Pagination.QueryParameters;
 
 namespace DAL.Concrete
@@ -13,9 +15,29 @@ namespace DAL.Concrete
 
         public PagedList<TblSchedule> GetSchedules(QueryParameters queryParameters)
         {
-            var data = context;
+            var data = context
+                .Include(s => s.Course).ThenInclude(c => c.Department)
+                .Include(s => s.Group).ThenInclude(g => g.Course).ThenInclude(c => c.Department)
+                .Include(s => s.Group).ThenInclude(g => g.AcademicYear)
+                .Include(s => s.Group).ThenInclude(g => g.TblGroupStudents)
+                .Include(s => s.Teacher).ThenInclude(t => t.User)
+                .Include(s => s.Room)
+                .Include(s => s.AcademicYear);
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
             return PagedList<TblSchedule>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);
+        }
+
+        public override TblSchedule GetById(Guid id)
+        {
+            return context
+                .Include(s => s.Course).ThenInclude(c => c.Department)
+                .Include(s => s.Group).ThenInclude(g => g.Course).ThenInclude(c => c.Department)
+                .Include(s => s.Group).ThenInclude(g => g.AcademicYear)
+                .Include(s => s.Group).ThenInclude(g => g.TblGroupStudents)
+                .Include(s => s.Teacher).ThenInclude(t => t.User)
+                .Include(s => s.Room)
+                .Include(s => s.AcademicYear)
+                .FirstOrDefault(s => s.Id == id);
         }
     }
 }
