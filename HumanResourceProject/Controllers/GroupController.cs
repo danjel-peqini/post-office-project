@@ -2,6 +2,7 @@ using Domain.Contracts;
 using DTO;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace PostOfficeProject.Controllers
 {
@@ -31,6 +32,22 @@ namespace PostOfficeProject.Controllers
         public IActionResult AddNew([FromBody] GroupPostDTO dto)
         {
             _groupDomain.AddNew(dto);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("{id}/students")]
+        public IActionResult AddStudents([FromRoute] Guid id, [FromBody] GroupStudentPostDTO dto)
+        {
+            _groupDomain.AddStudents(id, dto);
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("{id}/students")]
+        public IActionResult RemoveStudents([FromRoute] Guid id, [FromBody] GroupStudentPostDTO dto)
+        {
+            _groupDomain.RemoveStudents(id, dto);
             return Ok();
         }
 
