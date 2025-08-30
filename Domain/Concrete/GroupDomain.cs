@@ -28,6 +28,7 @@ namespace Domain.Concrete
         public void Delete(Guid id)
         {
             GroupRepository.Remove(id);
+            _unitOfWork.Save();
         }
 
         public Pagination<GroupDTO> GetAllGroups(QueryParameters queryParameters)

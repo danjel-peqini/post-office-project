@@ -30,6 +30,7 @@ namespace Domain.Concrete
         public void Delete(Guid id)
         {
             CourseRepository.Remove(id);
+            _unitOfWork.Save();
         }
 
         public Pagination<CourseDTO> GetAllCourses(QueryParameters queryParameters)

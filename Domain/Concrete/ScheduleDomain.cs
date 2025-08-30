@@ -28,6 +28,7 @@ namespace Domain.Concrete
         public void Delete(Guid id)
         {
             ScheduleRepository.Remove(id);
+            _unitOfWork.Save();
         }
 
         public Pagination<ScheduleDTO> GetAllSchedules(QueryParameters queryParameters)
