@@ -28,6 +28,7 @@ namespace Domain.Concrete
         public void Delete(Guid id)
         {
             RoomRepository.Remove(id);
+            _unitOfWork.Save();
         }
 
         public Pagination<RoomDTO> GetAllRooms(QueryParameters queryParameters)
