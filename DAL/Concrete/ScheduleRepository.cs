@@ -25,8 +25,18 @@ namespace DAL.Concrete
                 .Include(s => s.Teacher).ThenInclude(t => t.User)
                 .Include(s => s.Room)
                 .Include(s => s.AcademicYear);
-            var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
-            return PagedList<TblSchedule>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);
+
+            // Safely handle null query parameters to avoid null reference exceptions
+            var filterData = PaginationConfiguration(
+                data,
+                queryParameters?.SortField,
+                queryParameters?.SortOrder,
+                queryParameters?.SearchValue);
+
+            return PagedList<TblSchedule>.ToPagedList(
+                filterData,
+                queryParameters?.CurrentPage ?? 1,
+                queryParameters?.PageSize ?? 10);
         }
 
         public override TblSchedule GetById(Guid id)
