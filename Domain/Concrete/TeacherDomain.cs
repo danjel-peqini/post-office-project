@@ -78,6 +78,16 @@ namespace Domain.Concrete
             return _mapper.Map<TeacherDTO>(entity);
         }
 
+        public TeacherDTO GetTeacherByUserId(Guid userId)
+        {
+            var entity = TeacherRepository.GetByUserId(userId);
+            if (entity == null)
+            {
+                throw new Exception("Teacher not found");
+            }
+            return _mapper.Map<TeacherDTO>(entity);
+        }
+
         public TeacherDTO Update(Guid id, TeacherPostDTO teacherPostDTO)
         {
             var entity = TeacherRepository.GetById(id);
