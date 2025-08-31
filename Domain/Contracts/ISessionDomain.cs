@@ -1,5 +1,6 @@
 using System;
 using DTO;
+using Helpers.Pagination;
 
 namespace Domain.Contracts
 {
@@ -8,5 +9,6 @@ namespace Domain.Contracts
         SessionDTO CreateSession(Guid scheduleId);
         SessionDTO RegenerateOtp(Guid sessionId);
         SessionDTO CloseSession(Guid sessionId);
+        Pagination<SessionDTO> GetAllSessions(QueryParameters queryParameters, Guid? teacherId);
     }
 }

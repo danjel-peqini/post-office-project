@@ -1,4 +1,5 @@
 using Domain.Contracts;
+using Helpers.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -14,6 +15,11 @@ namespace PostOfficeProject.Controllers
         {
             _sessionDomain = sessionDomain;
         }
+
+        [HttpPost]
+        [Route("getAll")]
+        public IActionResult GetAll([FromQuery] QueryParameters queryParameters, [FromQuery] Guid? teacherId)
+            => Ok(_sessionDomain.GetAllSessions(queryParameters, teacherId));
 
         [HttpPost]
         [Route("{scheduleId}")]
