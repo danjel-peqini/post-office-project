@@ -27,9 +27,7 @@ namespace Domain.DI
             For<IGroupDomain>().Use<GroupDomain>();
             For<ITeacherDomain>().Use<TeacherDomain>();
             For<IScheduleDomain>().Use<ScheduleDomain>();
-
-            For<ISessionDomain>().Use<Domain.Concrete.SessionDomain>();
-
+            For<ISessionDomain>().Use<SessionDomain>();
 
             AddRepositoryRegistries();
             AddHttpContextRegistries();

@@ -81,11 +81,7 @@ namespace Domain.Mappings
             CreateMap<TblGroup, GroupDTO>()
                 .ForMember(dest => dest.Course, opt => opt.MapFrom(src => src.Course))
                 .ForMember(dest => dest.AcademicYear, opt => opt.MapFrom(src => src.AcademicYear))
-                // Materialise the student id collection so AutoMapper does not
-                // attempt to assign an IQueryable to a concrete collection
-                // property which would otherwise result in a compile-time
-                // type mismatch.
-                .ForMember(dest => dest.StudentIds, opt => opt.MapFrom(src => src.TblGroupStudents.Select(gs => gs.StudentId).ToList()))
+                .ForMember(dest => dest.StudentIds, opt => opt.MapFrom(src => src.TblGroupStudents.Select(gs => gs.StudentId)))
                 .ForMember(dest => dest.StudentsLength, opt => opt.MapFrom(src => src.TblGroupStudents.Count))
                 .ReverseMap()
                 .ForMember(dest => dest.Course, opt => opt.Ignore())
