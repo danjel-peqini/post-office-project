@@ -72,6 +72,7 @@ namespace Domain.Concrete
             var courseTotalHours = session.Schedule.Course.TotalHours ?? 0;
             var sessionDuration = (session.Schedule.EndTime - session.Schedule.StartTime).TotalHours;
             var totalSessions = sessionDuration == 0 ? 0 : (int)Math.Ceiling(courseTotalHours / sessionDuration);
+            var completedSessions = sessionIds.Count;
 
             foreach (var studentId in studentIds)
             {
@@ -81,11 +82,10 @@ namespace Domain.Concrete
                 }
 
                 var attendedCount = AttendanceRepository.CountAttendances(studentId, sessionIds);
-                var missedCount = Math.Max(0, totalSessions - attendedCount);
-                double attendancePercentage = totalSessions == 0 ? 0 : (double)attendedCount / totalSessions * 100;
+                var missedCount = Math.Max(0, completedSessions - attendedCount);
                 double absencePercentage = totalSessions == 0 ? 0 : (double)missedCount / totalSessions * 100;
 
-                if (attendancePercentage < 80)
+                if (absencePercentage >= 20)
                 {
                     AbsenceWarningRepository.AddOrUpdate(studentId, courseId, absencePercentage);
 
@@ -95,7 +95,10 @@ namespace Domain.Concrete
                         await _emailService.SendEmail(
                             student.User.Email,
                             "Attendance Warning",
-                            $"Hello {student.User.FirstName} {student.User.LastName},<br/>You have attended {attendedCount} out of {totalSessions} sessions for {session.Schedule.Course.Name} and missed {missedCount}. Your attendance is {attendancePercentage:F2}%. Please attend classes to avoid further actions.");
+                            $"Hello {student.User.FirstName} {student.User.LastName},<br/>" +
+                            $"You have attended {attendedCount} out of {totalSessions} sessions for {session.Schedule.Course.Name} " +
+                            $"and missed {missedCount}. Your absence is {absencePercentage:F2}%. " +
+                            $"Please attend classes to avoid further actions.");
                     }
                 }
             }
