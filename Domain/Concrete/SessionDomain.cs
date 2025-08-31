@@ -8,9 +8,7 @@ using System;
 
 namespace Domain.Concrete
 {
-
-    public class SessionDomain : DomainBase, ISessionDomain
-
+    internal class SessionDomain : DomainBase, ISessionDomain
     {
         public SessionDomain(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(unitOfWork, mapper, httpContextAccessor)
         {
