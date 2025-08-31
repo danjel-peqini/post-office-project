@@ -100,6 +100,17 @@ namespace DAL.Concrete
                 queryParameters?.PageSize ?? 10);
         }
 
+        public override TblSession GetById(Guid id)
+        {
+            return context
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Course).ThenInclude(c => c.Program)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Group)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Teacher).ThenInclude(t => t.User)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Room)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.AcademicYear)
+                .FirstOrDefault(s => s.Id == id && s.Status != EntityStatus.Deleted);
+        }
+
         private string GenerateOtp()
         {
             var random = new Random();
