@@ -11,5 +11,6 @@ namespace DAL.Contracts
         PagedList<TblStudentCard> GetStudentCards(QueryParameters queryParameters, Guid? userId, Guid? academicYearId, Guid? programId);
         void DisableCardsByUser(Guid userId);
         IEnumerable<TblStudentCard> GetByIds(IEnumerable<Guid> ids);
+        TblStudentCard GetByUserId(Guid userId);
     }
 }

@@ -27,6 +27,11 @@ namespace PostOfficeProject.Controllers
         public IActionResult GetById([FromRoute] Guid id)
             => Ok(_studentCardDomain.GetById(id));
 
+        [HttpGet]
+        [Route("user/{userId}")]
+        public IActionResult GetByUserId([FromRoute] Guid userId)
+            => Ok(_studentCardDomain.GetByUserId(userId));
+
         [HttpPost]
         [Route("add")]
         public IActionResult AddNew([FromBody] StudentCardPostDTO dto)

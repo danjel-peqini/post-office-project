@@ -9,6 +9,7 @@ namespace Domain.Contracts
     {
         Pagination<StudentCardDTO> GetAll(QueryParameters queryParameters, Guid? userId, Guid? academicYearId, Guid? programId);
         StudentCardDTO GetById(Guid id);
+        StudentCardDTO GetByUserId(Guid userId);
         void AddNew(StudentCardPostDTO dto);
         StudentCardDTO Update(Guid id, StudentCardPostDTO dto);
         void UpdateStatus(Guid id, EntityStatus status);
