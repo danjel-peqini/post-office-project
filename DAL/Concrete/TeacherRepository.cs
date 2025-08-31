@@ -26,5 +26,10 @@ namespace DAL.Concrete
         {
             return context.Include(t => t.User).FirstOrDefault(t => t.Id == id && t.Status != EntityStatus.Deleted);
         }
+
+        public TblTeacher GetByUserId(Guid userId)
+        {
+            return context.Include(t => t.User).FirstOrDefault(t => t.UserId == userId && t.Status != EntityStatus.Deleted);
+        }
     }
 }

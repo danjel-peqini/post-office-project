@@ -7,6 +7,7 @@ namespace Domain.Contracts
     {
         Pagination<TeacherDTO> GetAllTeachers(QueryParameters queryParameters);
         TeacherDTO GetTeacherById(Guid id);
+        TeacherDTO GetTeacherByUserId(Guid userId);
         TeacherDTO AddNew(TeacherPostDTO teacherPostDTO);
         TeacherDTO Update(Guid id, TeacherPostDTO teacherPostDTO);
         void Delete(Guid id);
