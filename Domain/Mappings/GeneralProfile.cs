@@ -105,13 +105,13 @@ namespace Domain.Mappings
             #region schedules
             CreateMap<TblSchedule, ScheduleDTO>()
                 .ForMember(dest => dest.Group, opt => opt.MapFrom(src => src.Group))
-                .ForMember(dest => dest.Course, opt => opt.MapFrom(src => src.Course))
+                .ForMember(dest => dest.Program, opt => opt.MapFrom(src => src.Program))
                 .ForMember(dest => dest.Teacher, opt => opt.MapFrom(src => src.Teacher))
                 .ForMember(dest => dest.Room, opt => opt.MapFrom(src => src.Room))
                 .ForMember(dest => dest.AcademicYear, opt => opt.MapFrom(src => src.AcademicYear))
                 .ReverseMap()
                 .ForMember(dest => dest.Group, opt => opt.Ignore())
-                .ForMember(dest => dest.Course, opt => opt.Ignore())
+                .ForMember(dest => dest.Program, opt => opt.Ignore())
                 .ForMember(dest => dest.Teacher, opt => opt.Ignore())
                 .ForMember(dest => dest.Room, opt => opt.Ignore())
                 .ForMember(dest => dest.AcademicYear, opt => opt.Ignore());

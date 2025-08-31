@@ -13,7 +13,7 @@ namespace Entities.Models
 
         public Guid Id { get; set; }
         public Guid GroupId { get; set; }
-        public Guid CourseId { get; set; }
+        public Guid ProgramId { get; set; }
         public Guid TeacherId { get; set; }
         public Guid RoomId { get; set; }
         public Guid AcademicYearId { get; set; }
@@ -23,7 +23,7 @@ namespace Entities.Models
         public RoomType ScheduleType { get; set; }
         public EntityStatus Status { get; set; }
 
-        public virtual TblCourse Course { get; set; } = null!;
+        public virtual TblProgram Program { get; set; } = null!;
         public virtual TblGroup Group { get; set; } = null!;
         public virtual TblAcademicYear AcademicYear { get; set; } = null!;
         public virtual TblRoom Room { get; set; } = null!;

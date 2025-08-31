@@ -19,7 +19,7 @@ namespace DAL.Concrete
         {
             var data = context
                 .Where(s => s.Status != EntityStatus.Deleted)
-                .Include(s => s.Course)
+                .Include(s => s.Program)
                 .Include(s => s.Group).ThenInclude(g => g.Program).ThenInclude(p => p.Department)
                 .Include(s => s.Group).ThenInclude(g => g.TblGroupStudents)
                 .Include(s => s.Teacher).ThenInclude(t => t.User)
@@ -57,7 +57,7 @@ namespace DAL.Concrete
         public override TblSchedule GetById(Guid id)
         {
             return context
-                .Include(s => s.Course)
+                .Include(s => s.Program)
                 .Include(s => s.Group).ThenInclude(g => g.Program).ThenInclude(p => p.Department)
                 .Include(s => s.Group).ThenInclude(g => g.TblGroupStudents)
                 .Include(s => s.Teacher).ThenInclude(t => t.User)

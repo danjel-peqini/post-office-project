@@ -7,7 +7,7 @@ namespace DTO
     {
         public Guid Id { get; set; }
         public Guid GroupId { get; set; }
-        public Guid CourseId { get; set; }
+        public Guid ProgramId { get; set; }
         public Guid TeacherId { get; set; }
         public Guid RoomId { get; set; }
         public Guid AcademicYearId { get; set; }
@@ -18,7 +18,7 @@ namespace DTO
         public EntityStatus Status { get; set; }
 
         public GroupDTO Group { get; set; }
-        public CourseDTO Course { get; set; }
+        public ProgramDTO Program { get; set; }
         public TeacherDTO Teacher { get; set; }
         public RoomDTO Room { get; set; }
         public AcademicYearDTO AcademicYear { get; set; }
@@ -27,7 +27,7 @@ namespace DTO
     public class SchedulePostDTO
     {
         public Guid? GroupId { get; set; }
-        public Guid? CourseId { get; set; }
+        public Guid? ProgramId { get; set; }
         public Guid? TeacherId { get; set; }
         public Guid? RoomId { get; set; }
         public Guid? AcademicYearId { get; set; }
