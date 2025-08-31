@@ -6,7 +6,9 @@ using System.Linq;
 
 namespace DAL.Concrete
 {
-    internal class SessionRepository : BaseRepository<TblSession, Guid>, ISessionRepository
+
+    public class SessionRepository : BaseRepository<TblSession, Guid>, ISessionRepository
+
     {
         private readonly SchoolAdministrationContext _dbContext;
 
