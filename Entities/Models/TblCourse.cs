@@ -9,6 +9,7 @@ namespace Entities.Models
         public TblCourse()
         {
             TblAbsenceWarnings = new HashSet<TblAbsenceWarning>();
+            TblSchedules = new HashSet<TblSchedule>();
         }
 
         public Guid Id { get; set; }
@@ -20,5 +21,6 @@ namespace Entities.Models
 
         public virtual TblProgram Program { get; set; } = null!;
         public virtual ICollection<TblAbsenceWarning> TblAbsenceWarnings { get; set; }
+        public virtual ICollection<TblSchedule> TblSchedules { get; set; }
     }
 }
