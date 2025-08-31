@@ -87,8 +87,8 @@ namespace Domain.Concrete
             }
             if (!string.IsNullOrWhiteSpace(group.Name))
                 entity.Name = group.Name;
-            if (group.CourseId.HasValue)
-                entity.CourseId = group.CourseId.Value;
+            if (group.ProgramId.HasValue)
+                entity.ProgramId = group.ProgramId.Value;
             if (group.AcademicYearId.HasValue)
                 entity.AcademicYearId = group.AcademicYearId.Value;
             if (group.Status.HasValue)

@@ -19,6 +19,7 @@ namespace DAL.DI
             For<IUserTypeRepository>().Use<UserTypeRepository>();
             For<IDepartmantRepository>().Use<DepartmantRepository>();
             For<ICourseRepository>().Use<CourseRepository>();
+            For<IProgramRepository>().Use<ProgramRepository>();
             For<IAcademicYearRepository>().Use<AcademicYearRepository>();
             For<IAttendanceRepository>().Use<AttendanceRepository>();
             For<IRoomRepository>().Use<RoomRepository>();

@@ -65,8 +65,8 @@ namespace Domain.Concrete
                 entity.TotalHours = course.TotalHours.Value;
             if (course.Status.HasValue)
                 entity.Status = course.Status.Value;
-            if (course.DepartmantId.HasValue)
-                entity.DepartmentId = course.DepartmantId.Value;
+            if (course.ProgramId.HasValue)
+                entity.ProgramId = course.ProgramId.Value;
             CourseRepository.SetModified(entity);
             _unitOfWork.Save();
             return _mapper.Map<CourseDTO>(entity);

@@ -23,19 +23,19 @@ namespace Domain.Concrete
         {
         }
         private IDepartmantRepository DepartmantRepository => _unitOfWork.GetRepository<IDepartmantRepository>();
-        private ICourseRepository CourseRepository => _unitOfWork.GetRepository<ICourseRepository>();
+        private IProgramRepository ProgramRepository => _unitOfWork.GetRepository<IProgramRepository>();
 
-        public CourseDTO addCourse(CoursePostDTO course, Guid departmantId)
+        public ProgramDTO addProgram(ProgramPostDTO program, Guid departmantId)
         {
             try
             {
-                var mapped = _mapper.Map<TblCourse>(course);
+                var mapped = _mapper.Map<TblProgram>(program);
                 mapped.Status = EntityStatus.Active;
                 mapped.DepartmentId = departmantId;
                 mapped.Id = Guid.NewGuid();
-                CourseRepository.Add(mapped);
+                ProgramRepository.Add(mapped);
                 _unitOfWork.Save();
-                return _mapper.Map<CourseDTO>(course);
+                return _mapper.Map<ProgramDTO>(mapped);
 
             }catch (Exception ex)
             {
@@ -117,28 +117,24 @@ namespace Domain.Concrete
             }
         }
 
-        public CourseDTO updateCourse(CoursePostDTO course, Guid courseId)
+        public ProgramDTO updateProgram(ProgramPostDTO program, Guid programId)
         {
             try
             {
-                TblCourse courseEntity = CourseRepository.GetById(courseId);
-                if (courseEntity == null)
+                TblProgram programEntity = ProgramRepository.GetById(programId);
+                if (programEntity == null)
                 {
-                    throw new Exception("Course not found");
+                    throw new Exception("Program not found");
                 }
-                if(course.TotalHours.HasValue)
-                    courseEntity.TotalHours = course.TotalHours.Value;
-                if(course.Status.HasValue)
-                    courseEntity.Status = course.Status.Value;
-                if (!string.IsNullOrWhiteSpace(course.Name))
-                    courseEntity.Name = course.Name;
-                if (course.Credits.HasValue)
-                    courseEntity.Credits = course.Credits.Value;
-                if(course.DepartmantId.HasValue)
-                    courseEntity.DepartmentId = course.DepartmantId.Value;
-                CourseRepository.SetModified(courseEntity);
+                if (!string.IsNullOrWhiteSpace(program.Name))
+                    programEntity.Name = program.Name;
+                if (program.Status.HasValue)
+                    programEntity.Status = program.Status.Value;
+                if (program.DepartmantId.HasValue)
+                    programEntity.DepartmentId = program.DepartmantId.Value;
+                ProgramRepository.SetModified(programEntity);
                 _unitOfWork.Save();
-                return _mapper.Map<CourseDTO>(courseEntity);
+                return _mapper.Map<ProgramDTO>(programEntity);
             }
             catch (Exception ex)
             {

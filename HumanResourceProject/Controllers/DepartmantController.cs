@@ -46,17 +46,17 @@ namespace PostOfficeProject.Controllers
         public IActionResult Update([FromRoute] Guid departmantId, [FromBody] DepartmantPostDTO departmant)
             => Ok(_departmantDomain.Update(departmantId, departmant));
         [HttpPost]
-        [Route("{departmantId}/course")]
-        public IActionResult addCourse([FromRoute] Guid departmantId, [FromBody] CoursePostDTO course)
+        [Route("{departmantId}/program")]
+        public IActionResult addProgram([FromRoute] Guid departmantId, [FromBody] ProgramPostDTO program)
         {
-            _departmantDomain.addCourse(course, departmantId);
+            _departmantDomain.addProgram(program, departmantId);
             return Ok();
         }
         [HttpPatch]
-        [Route("course/{courseId}")]
-        public IActionResult updateCourse([FromRoute] Guid courseId, [FromBody] CoursePostDTO course)
+        [Route("program/{programId}")]
+        public IActionResult updateProgram([FromRoute] Guid programId, [FromBody] ProgramPostDTO program)
         {
-            _departmantDomain.updateCourse(course, courseId);
+            _departmantDomain.updateProgram(program, programId);
             return Ok();
         }
     }

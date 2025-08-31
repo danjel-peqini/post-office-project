@@ -8,7 +8,7 @@ namespace Entities.Models
     {
         public TblDepartment()
         {
-            TblCourses = new HashSet<TblCourse>();
+            TblPrograms = new HashSet<TblProgram>();
             TblStudentCards = new HashSet<TblStudentCard>();
         }
 
@@ -19,7 +19,7 @@ namespace Entities.Models
         public DateTimeOffset? CreatedDate { get; set; }
         public EntityStatus Status { get; set; }
 
-        public virtual ICollection<TblCourse> TblCourses { get; set; }
+        public virtual ICollection<TblProgram> TblPrograms { get; set; }
         public virtual ICollection<TblStudentCard> TblStudentCards { get; set; }
     }
 }

@@ -14,12 +14,12 @@ namespace Entities.Models
 
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
-        public Guid CourseId { get; set; }
+        public Guid ProgramId { get; set; }
         public Guid AcademicYearId { get; set; }
         public EntityStatus Status { get; set; }
 
         public virtual TblAcademicYear AcademicYear { get; set; } = null!;
-        public virtual TblCourse Course { get; set; } = null!;
+        public virtual TblProgram Program { get; set; } = null!;
         public virtual ICollection<TblGroupStudent> TblGroupStudents { get; set; }
         public virtual ICollection<TblSchedule> TblSchedules { get; set; }
     }

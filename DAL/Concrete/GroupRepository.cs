@@ -18,7 +18,8 @@ namespace DAL.Concrete
         {
             var data = context
                 .Where(g => g.Status != EntityStatus.Deleted)
-                .Include(g => g.Course)
+                .Include(g => g.Program)
+                    .ThenInclude(p => p.Department)
                 .Include(g => g.AcademicYear)
                 .Include(g => g.TblGroupStudents);
 
@@ -34,7 +35,8 @@ namespace DAL.Concrete
         public override TblGroup GetById(Guid id)
         {
             return context
-                .Include(g => g.Course)
+                .Include(g => g.Program)
+                    .ThenInclude(p => p.Department)
                 .Include(g => g.AcademicYear)
                 .Include(g => g.TblGroupStudents)
                     .ThenInclude(gs => gs.Student)

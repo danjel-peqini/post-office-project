@@ -17,8 +17,8 @@ namespace Domain.Contracts
         void AddNew(DepartmantPostDTO departmantPostDTO);
         void Delete(Guid id);
         DepartmantDTO Update(Guid id, DepartmantPostDTO departmantPostDTO);
-        CourseDTO addCourse(CoursePostDTO course, Guid departmantId);
-        CourseDTO updateCourse(CoursePostDTO course, Guid courseId);
+        ProgramDTO addProgram(ProgramPostDTO program, Guid departmantId);
+        ProgramDTO updateProgram(ProgramPostDTO program, Guid programId);
 
 
     }

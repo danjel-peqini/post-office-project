@@ -11,7 +11,7 @@ namespace DTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
-        public DepartmantDTO Departmant { get; set; }
+        public ProgramDTO Program { get; set; }
         public EntityStatus Status { get; set; }
         public int Credits { get; set; }
         public int? TotalHours { get; set; }
@@ -19,7 +19,7 @@ namespace DTO
     public class CoursePostDTO
     {
         public string? Name { get; set; } = null!;
-        public Guid? DepartmantId{ get; set; }
+        public Guid? ProgramId{ get; set; }
         public EntityStatus? Status { get; set; }
         public int? Credits { get; set; }
         public int? TotalHours { get; set; }
