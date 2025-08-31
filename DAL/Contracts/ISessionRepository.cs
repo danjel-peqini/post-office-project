@@ -7,7 +7,7 @@ namespace DAL.Contracts
 {
     public interface ISessionRepository : IRepository<TblSession, Guid>
     {
-        TblSession CreateSession(Guid scheduleId);
+        TblSession CreateSession(Guid scheduleId, string ipAddress);
         TblSession RegenerateOtp(Guid sessionId);
         TblSession CloseSession(Guid sessionId);
         PagedList<TblSession> GetSessions(QueryParameters queryParameters, Guid? teacherId = null);

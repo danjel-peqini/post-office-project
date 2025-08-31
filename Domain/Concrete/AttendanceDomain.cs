@@ -19,7 +19,10 @@ namespace Domain.Concrete
 
         public AttendanceDTO CheckIn(AttendanceCheckInDTO dto)
         {
-            var entity = AttendanceRepository.CheckIn(dto.StudentCardCode, dto.SessionId);
+            var ipAddress = _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            if (string.IsNullOrEmpty(ipAddress))
+                throw new Exception("Unable to determine IP address");
+            var entity = AttendanceRepository.CheckIn(dto.StudentCardCode, dto.SessionId, ipAddress);
             return _mapper.Map<AttendanceDTO>(entity);
         }
 

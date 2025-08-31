@@ -12,6 +12,7 @@ namespace DTO
         public string? Otp { get; set; }
         public DateTime? OtpcreatedAt { get; set; }
         public EntityStatus Status { get; set; }
+        public string? IpAddress { get; set; }
 
         public ScheduleDTO Schedule { get; set; }
     }
