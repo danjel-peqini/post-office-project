@@ -8,7 +8,7 @@ namespace DAL.Contracts
 {
     public interface IStudentCardRepository : IRepository<TblStudentCard, Guid>
     {
-        PagedList<TblStudentCard> GetStudentCards(QueryParameters queryParameters, Guid? userId, Guid? academicYearId, Guid? departmentId);
+        PagedList<TblStudentCard> GetStudentCards(QueryParameters queryParameters, Guid? userId, Guid? academicYearId, Guid? programId);
         void DisableCardsByUser(Guid userId);
         IEnumerable<TblStudentCard> GetByIds(IEnumerable<Guid> ids);
     }

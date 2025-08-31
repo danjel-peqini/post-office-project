@@ -29,11 +29,11 @@ namespace DAL.Concrete
             }
         }
 
-        public PagedList<TblStudentCard> GetStudentCards(QueryParameters queryParameters, Guid? userId, Guid? academicYearId, Guid? departmentId)
+        public PagedList<TblStudentCard> GetStudentCards(QueryParameters queryParameters, Guid? userId, Guid? academicYearId, Guid? programId)
         {
             var data = context
                 .Include(x => x.User)
-                .Include(x => x.Department)
+                .Include(x => x.Program)
                 .Include(x => x.AcademicYear)
                 .Where(x => x.Status != EntityStatus.Deleted)
                 .AsQueryable();
@@ -41,8 +41,8 @@ namespace DAL.Concrete
                 data = data.Where(x => x.UserId == userId.Value);
             if (academicYearId.HasValue)
                 data = data.Where(x => x.AcademicYearId == academicYearId.Value);
-            if (departmentId.HasValue)
-                data = data.Where(x => x.DepartmentId == departmentId.Value);
+            if (programId.HasValue)
+                data = data.Where(x => x.ProgramId == programId.Value);
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
             return PagedList<TblStudentCard>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);
         }
@@ -51,7 +51,7 @@ namespace DAL.Concrete
         {
             return context
                 .Include(x => x.User)
-                .Include(x => x.Department)
+                .Include(x => x.Program)
                 .Include(x => x.AcademicYear)
                 .Where(x => ids.Contains(x.Id) && x.Status != EntityStatus.Deleted)
                 .ToList();
@@ -61,7 +61,7 @@ namespace DAL.Concrete
         {
             return context
                 .Include(x => x.User)
-                .Include(x => x.Department)
+                .Include(x => x.Program)
                 .Include(x => x.AcademicYear)
                 .FirstOrDefault(x => x.Id == id && x.Status != EntityStatus.Deleted);
         }

@@ -7,7 +7,7 @@ namespace Domain.Contracts
 {
     public interface IStudentCardDomain
     {
-        Pagination<StudentCardDTO> GetAll(QueryParameters queryParameters, Guid? userId, Guid? academicYearId, Guid? departmentId);
+        Pagination<StudentCardDTO> GetAll(QueryParameters queryParameters, Guid? userId, Guid? academicYearId, Guid? programId);
         StudentCardDTO GetById(Guid id);
         void AddNew(StudentCardPostDTO dto);
         StudentCardDTO Update(Guid id, StudentCardPostDTO dto);

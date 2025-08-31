@@ -327,11 +327,11 @@ namespace Entities.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__tblStuden__Acade__71D1E811");
 
-                entity.HasOne(d => d.Department)
+                entity.HasOne(d => d.Program)
                     .WithMany(p => p.TblStudentCards)
-                    .HasForeignKey(d => d.DepartmentId)
+                    .HasForeignKey(d => d.ProgramId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblStuden__Depar__70DDC3D8");
+                    .HasConstraintName("FK__tblStuden__Progr__70DDC3D8");
 
                 entity.HasOne(d => d.User)
                     .WithOne(p => p.TblStudentCard)
