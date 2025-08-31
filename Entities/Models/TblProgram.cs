@@ -11,7 +11,6 @@ namespace Entities.Models
             TblCourses = new HashSet<TblCourse>();
             TblGroups = new HashSet<TblGroup>();
             TblStudentCards = new HashSet<TblStudentCard>();
-            TblSchedules = new HashSet<TblSchedule>();
         }
 
         public Guid Id { get; set; }
@@ -23,6 +22,5 @@ namespace Entities.Models
         public virtual ICollection<TblCourse> TblCourses { get; set; }
         public virtual ICollection<TblGroup> TblGroups { get; set; }
         public virtual ICollection<TblStudentCard> TblStudentCards { get; set; }
-        public virtual ICollection<TblSchedule> TblSchedules { get; set; }
     }
 }

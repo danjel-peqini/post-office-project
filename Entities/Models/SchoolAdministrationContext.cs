@@ -236,11 +236,11 @@ namespace Entities.Models
 
                 entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
-                entity.HasOne(d => d.Program)
+                entity.HasOne(d => d.Course)
                     .WithMany(p => p.TblSchedules)
-                    .HasForeignKey(d => d.ProgramId)
+                    .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblSchedu__Progr__09A971A2");
+                    .HasConstraintName("FK__tblSchedule__Course");
 
                 entity.HasOne(d => d.Group)
                     .WithMany(p => p.TblSchedules)

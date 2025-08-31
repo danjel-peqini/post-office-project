@@ -67,8 +67,8 @@ namespace Domain.Concrete
             }
             if (schedule.GroupId.HasValue)
                 entity.GroupId = schedule.GroupId.Value;
-            if (schedule.ProgramId.HasValue)
-                entity.ProgramId = schedule.ProgramId.Value;
+            if (schedule.CourseId.HasValue)
+                entity.CourseId = schedule.CourseId.Value;
             if (schedule.TeacherId.HasValue)
                 entity.TeacherId = schedule.TeacherId.Value;
             if (schedule.RoomId.HasValue)
