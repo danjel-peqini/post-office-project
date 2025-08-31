@@ -109,5 +109,34 @@ namespace DAL.Concrete
         {
             return context.Count(a => a.StudentId == studentId && sessionIds.Contains(a.SessionId) && a.Status != EntityStatus.Deleted);
         }
+
+        public IEnumerable<CourseAttendanceSummary> GetCourseAttendanceByStudent(Guid studentId)
+        {
+            var query = from gs in _dbContext.TblGroupStudents
+                        where gs.StudentId == studentId
+                        join sc in _dbContext.TblSchedules on gs.GroupId equals sc.GroupId
+                        where sc.Status != EntityStatus.Deleted
+                        join c in _dbContext.TblCourses on sc.CourseId equals c.Id
+                        where c.Status != EntityStatus.Deleted
+                        join s in _dbContext.TblSessions on sc.Id equals s.ScheduleId
+                        where s.Status != EntityStatus.Deleted
+                        join a in _dbContext.TblAttendances.Where(a => a.StudentId == studentId && a.Status != EntityStatus.Deleted)
+                            on s.Id equals a.SessionId into att
+                        from a in att.DefaultIfEmpty()
+                        select new { c.Id, c.Name, Attended = a != null };
+
+            return query
+                .AsEnumerable()
+                .GroupBy(x => new { x.Id, x.Name })
+                .Select(g => new CourseAttendanceSummary
+                {
+                    CourseId = g.Key.Id,
+                    CourseName = g.Key.Name,
+                    TotalSessions = g.Count(),
+                    AttendedSessions = g.Count(x => x.Attended),
+                    MissedSessions = g.Count(x => !x.Attended)
+                })
+                .ToList();
+        }
     }
 }

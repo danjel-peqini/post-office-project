@@ -12,5 +12,6 @@ namespace Domain.Contracts
         AttendanceDTO AddAttendance(AttendanceAddDTO dto);
         void RemoveAttendance(Guid attendanceId);
         IEnumerable<GroupSessionAttendanceDTO> GetGroupSessionAttendance(Guid groupId, Guid sessionId);
+        IEnumerable<CourseAttendanceSummaryDTO> GetCourseAttendanceByStudent(Guid studentCardId);
     }
 }

@@ -41,6 +41,12 @@ namespace Domain.Concrete
             return _mapper.Map<IEnumerable<AttendanceDTO>>(items);
         }
 
+        public IEnumerable<CourseAttendanceSummaryDTO> GetCourseAttendanceByStudent(Guid studentCardId)
+        {
+            var items = AttendanceRepository.GetCourseAttendanceByStudent(studentCardId);
+            return _mapper.Map<IEnumerable<CourseAttendanceSummaryDTO>>(items);
+        }
+
         public AttendanceDTO AddAttendance(AttendanceAddDTO dto)
         {
             var teacherId = GetUserId();
