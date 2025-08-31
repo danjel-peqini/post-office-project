@@ -1,6 +1,7 @@
 using Entities.Models;
 using Helpers.Pagination;
 using System;
+using static Helpers.Pagination.QueryParameters;
 
 namespace DAL.Contracts
 {
