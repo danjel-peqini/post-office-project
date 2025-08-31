@@ -6,6 +6,6 @@ namespace DAL.Contracts
 {
     public interface IGroupRepository : IRepository<TblGroup, Guid>
     {
-        PagedList<TblGroup> GetGroups(QueryParameters queryParameters);
+        PagedList<TblGroup> GetGroups(QueryParameters queryParameters, Guid? studentId = null);
     }
 }

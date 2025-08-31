@@ -19,8 +19,8 @@ namespace PostOfficeProject.Controllers
 
         [HttpPost]
         [Route("getAll")]
-        public IActionResult GetAll([FromQuery] QueryParameters queryParameters)
-            => Ok(_groupDomain.GetAllGroups(queryParameters));
+        public IActionResult GetAll([FromQuery] QueryParameters queryParameters, [FromQuery] Guid? studentId)
+            => Ok(_groupDomain.GetAllGroups(queryParameters, studentId));
 
         [HttpGet]
         [Route("{id}")]
