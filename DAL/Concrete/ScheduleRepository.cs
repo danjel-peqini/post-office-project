@@ -18,27 +18,27 @@ namespace DAL.Concrete
         public PagedList<TblSchedule> GetSchedules(QueryParameters queryParameters, Guid? groupId = null, Guid? studentId = null, Guid? teacherId = null)
         {
             var data = context
-                .Where(s => s.Status != EntityStatus.Deleted)
                 .Include(s => s.Course).ThenInclude(c => c.Program)
                 .Include(s => s.Group).ThenInclude(g => g.Program).ThenInclude(p => p.Department)
                 .Include(s => s.Group).ThenInclude(g => g.TblGroupStudents)
                 .Include(s => s.Teacher).ThenInclude(t => t.User)
                 .Include(s => s.Room)
-                .Include(s => s.AcademicYear);
+                .Include(s => s.AcademicYear)
+                .Where(s => s.Status != EntityStatus.Deleted);
 
             if (groupId.HasValue)
             {
-                data = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<TblSchedule, TblAcademicYear>)data.Where(s => s.GroupId == groupId.Value);
+                data = data.Where(s => s.GroupId == groupId.Value);
             }
 
             if (teacherId.HasValue)
             {
-                data = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<TblSchedule, TblAcademicYear>)data.Where(s => s.TeacherId == teacherId.Value);
+                data = data.Where(s => s.TeacherId == teacherId.Value);
             }
 
             if (studentId.HasValue)
             {
-                data = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<TblSchedule, TblAcademicYear>)data.Where(s => s.Group.TblGroupStudents.Any(gs => gs.StudentId == studentId.Value));
+                data = data.Where(s => s.Group.TblGroupStudents.Any(gs => gs.StudentId == studentId.Value));
             }
 
             // Safely handle null query parameters to avoid null reference exceptions
