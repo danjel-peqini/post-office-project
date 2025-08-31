@@ -13,5 +13,6 @@ namespace DAL.Contracts
         TblSession CloseSession(Guid sessionId);
         PagedList<TblSession> GetSessions(QueryParameters queryParameters, Guid? teacherId = null);
         IEnumerable<Guid> GetSessionIdsByCourseAndGroup(Guid courseId, Guid groupId, Guid academicYearId);
+        TblSession? GetLatestOpenSession(Guid scheduleId);
     }
 }

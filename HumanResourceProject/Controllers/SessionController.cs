@@ -41,5 +41,10 @@ namespace PostOfficeProject.Controllers
         [Route("{sessionId}")]
         public IActionResult GetById([FromRoute] Guid sessionId)
             => Ok(_sessionDomain.GetSessionById(sessionId));
+
+        [HttpGet]
+        [Route("schedule/{scheduleId}/latest-open")]
+        public IActionResult GetLatestOpenSession([FromRoute] Guid scheduleId)
+            => Ok(_sessionDomain.GetLatestOpenSession(scheduleId));
     }
 }

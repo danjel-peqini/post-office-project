@@ -113,6 +113,19 @@ namespace DAL.Concrete
                 .FirstOrDefault(s => s.Id == id && s.Status != EntityStatus.Deleted);
         }
 
+        public TblSession? GetLatestOpenSession(Guid scheduleId)
+        {
+            return context
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Course).ThenInclude(c => c.Program)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Group)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Teacher).ThenInclude(t => t.User)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Room)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.AcademicYear)
+                .Where(s => s.ScheduleId == scheduleId && s.IsOpen == true && s.Status != EntityStatus.Deleted)
+                .OrderByDescending(s => s.Date)
+                .FirstOrDefault();
+        }
+
         public IEnumerable<Guid> GetSessionIdsByCourseAndGroup(Guid courseId, Guid groupId, Guid academicYearId)
         {
             return context
