@@ -28,17 +28,17 @@ namespace DAL.Concrete
 
             if (groupId.HasValue)
             {
-                data = data.Where(s => s.GroupId == groupId.Value);
+                data = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<TblSchedule, TblAcademicYear>)data.Where(s => s.GroupId == groupId.Value);
             }
 
             if (teacherId.HasValue)
             {
-                data = data.Where(s => s.TeacherId == teacherId.Value);
+                data = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<TblSchedule, TblAcademicYear>)data.Where(s => s.TeacherId == teacherId.Value);
             }
 
             if (studentId.HasValue)
             {
-                data = data.Where(s => s.Group.TblGroupStudents.Any(gs => gs.StudentId == studentId.Value));
+                data = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<TblSchedule, TblAcademicYear>)data.Where(s => s.Group.TblGroupStudents.Any(gs => gs.StudentId == studentId.Value));
             }
 
             // Safely handle null query parameters to avoid null reference exceptions
