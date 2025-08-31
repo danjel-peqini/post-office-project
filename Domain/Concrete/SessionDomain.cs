@@ -49,5 +49,15 @@ namespace Domain.Concrete
 
             return paginatedData;
         }
+
+        public SessionDTO GetSessionById(Guid sessionId)
+        {
+            var session = SessionRepository.GetById(sessionId);
+            if (session == null)
+            {
+                throw new Exception("Session not found");
+            }
+            return _mapper.Map<SessionDTO>(session);
+        }
     }
 }

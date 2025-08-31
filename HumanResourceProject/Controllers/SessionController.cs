@@ -35,5 +35,10 @@ namespace PostOfficeProject.Controllers
         [Route("{sessionId}/close")]
         public IActionResult Close([FromRoute] Guid sessionId)
             => Ok(_sessionDomain.CloseSession(sessionId));
+
+        [HttpGet]
+        [Route("{sessionId}")]
+        public IActionResult GetById([FromRoute] Guid sessionId)
+            => Ok(_sessionDomain.GetSessionById(sessionId));
     }
 }
