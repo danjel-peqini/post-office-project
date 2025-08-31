@@ -60,6 +60,46 @@ namespace DAL.Concrete
             return _dbContext.TblAttendances.Where(a => a.StudentId == studentCardId && a.Status != EntityStatus.Deleted).AsNoTracking().ToList();
         }
 
+        public IEnumerable<TblAttendance> GetBySession(Guid sessionId)
+        {
+            return _dbContext.TblAttendances.Where(a => a.SessionId == sessionId && a.Status != EntityStatus.Deleted).AsNoTracking().ToList();
+        }
+
+        public TblAttendance AddAttendance(Guid sessionId, Guid studentId, Guid teacherId)
+        {
+            var session = _dbContext.TblSessions
+                .Include(s => s.Schedule)
+                .FirstOrDefault(s => s.Id == sessionId && s.Status != EntityStatus.Deleted);
+            if (session == null) throw new Exception("Session not found");
+
+            var belongs = _dbContext.TblGroupStudents.Any(gs => gs.GroupId == session.Schedule.GroupId && gs.StudentId == studentId);
+            if (!belongs) throw new Exception("Student not in this session");
+
+            var already = _dbContext.TblAttendances.Any(a => a.SessionId == sessionId && a.StudentId == studentId && a.Status != EntityStatus.Deleted);
+            if (already) throw new Exception("Student already checked in");
+
+            var attendance = new TblAttendance
+            {
+                Id = Guid.NewGuid(),
+                SessionId = sessionId,
+                StudentId = studentId,
+                CheckInTime = DateTimeOffset.UtcNow,
+                CheckedInBy = $"teacher:{teacherId}",
+                Status = EntityStatus.Active
+            };
+            Add(attendance);
+            _dbContext.SaveChanges();
+            return attendance;
+        }
+
+        public void RemoveAttendance(Guid attendanceId)
+        {
+            var entity = _dbContext.TblAttendances.FirstOrDefault(a => a.Id == attendanceId && a.Status != EntityStatus.Deleted);
+            if (entity == null) throw new Exception("Attendance not found");
+            Remove(entity);
+            _dbContext.SaveChanges();
+        }
+
         public bool HasAttendance(Guid sessionId, Guid studentId)
         {
             return context.Any(a => a.SessionId == sessionId && a.StudentId == studentId && a.Status != EntityStatus.Deleted);

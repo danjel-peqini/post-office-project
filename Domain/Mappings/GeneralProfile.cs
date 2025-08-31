@@ -123,6 +123,10 @@ namespace Domain.Mappings
                 .ReverseMap()
                 .ForMember(dest => dest.Schedule, opt => opt.Ignore());
             #endregion
+
+            #region absenceWarnings
+            CreateMap<TblAbsenceWarning, AbsenceWarningDTO>().ReverseMap();
+            #endregion
         }
 
 

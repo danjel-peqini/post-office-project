@@ -31,5 +31,23 @@ namespace Domain.Concrete
             var items = AttendanceRepository.GetByStudent(studentCardId);
             return _mapper.Map<IEnumerable<AttendanceDTO>>(items);
         }
+
+        public IEnumerable<AttendanceDTO> GetBySessionId(Guid sessionId)
+        {
+            var items = AttendanceRepository.GetBySession(sessionId);
+            return _mapper.Map<IEnumerable<AttendanceDTO>>(items);
+        }
+
+        public AttendanceDTO AddAttendance(AttendanceAddDTO dto)
+        {
+            var teacherId = GetUserId();
+            var entity = AttendanceRepository.AddAttendance(dto.SessionId, dto.StudentId, teacherId);
+            return _mapper.Map<AttendanceDTO>(entity);
+        }
+
+        public void RemoveAttendance(Guid attendanceId)
+        {
+            AttendanceRepository.RemoveAttendance(attendanceId);
+        }
     }
 }

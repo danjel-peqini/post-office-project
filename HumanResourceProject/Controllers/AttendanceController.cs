@@ -29,5 +29,26 @@ namespace HumanResourceProject.Controllers
             var result = _attendanceDomain.GetByStudentCardId(studentCardId);
             return Ok(result);
         }
+
+        [HttpGet("session/{sessionId}")]
+        public IActionResult GetBySession(Guid sessionId)
+        {
+            var result = _attendanceDomain.GetBySessionId(sessionId);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public IActionResult AddAttendance([FromBody] AttendanceAddDTO dto)
+        {
+            var result = _attendanceDomain.AddAttendance(dto);
+            return Ok(result);
+        }
+
+        [HttpDelete("{attendanceId}")]
+        public IActionResult RemoveAttendance(Guid attendanceId)
+        {
+            _attendanceDomain.RemoveAttendance(attendanceId);
+            return NoContent();
+        }
     }
 }

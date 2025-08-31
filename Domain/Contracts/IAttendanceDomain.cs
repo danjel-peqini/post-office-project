@@ -8,5 +8,8 @@ namespace Domain.Contracts
     {
         AttendanceDTO CheckIn(AttendanceCheckInDTO dto);
         IEnumerable<AttendanceDTO> GetByStudentCardId(Guid studentCardId);
+        IEnumerable<AttendanceDTO> GetBySessionId(Guid sessionId);
+        AttendanceDTO AddAttendance(AttendanceAddDTO dto);
+        void RemoveAttendance(Guid attendanceId);
     }
 }
