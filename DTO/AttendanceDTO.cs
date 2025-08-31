@@ -16,6 +16,12 @@ namespace DTO
 
     public class AttendanceCheckInDTO
     {
+        public Guid StudentId { get; set; }
+        public string SessionOtp { get; set; } = null!;
+    }
+
+    public class AttendanceScanDTO
+    {
         public string StudentCardCode { get; set; } = null!;
         public Guid SessionId { get; set; }
     }

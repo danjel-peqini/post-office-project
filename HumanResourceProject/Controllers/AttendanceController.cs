@@ -25,6 +25,13 @@ namespace HumanResourceProject.Controllers
             return Ok(result);
         }
 
+        [HttpPost("scan")]
+        public IActionResult Scan([FromBody] AttendanceScanDTO dto)
+        {
+            var result = _attendanceDomain.Scan(dto);
+            return Ok(result);
+        }
+
         [HttpGet("student/{studentCardId}")]
         public IActionResult GetByStudent(Guid studentCardId)
         {
