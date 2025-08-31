@@ -14,13 +14,18 @@ namespace DAL.Concrete
         {
         }
 
-        public PagedList<TblGroup> GetGroups(QueryParameters queryParameters)
+        public PagedList<TblGroup> GetGroups(QueryParameters queryParameters, Guid? studentId = null)
         {
             var data = context
                 .Where(g => g.Status != EntityStatus.Deleted)
                 .Include(g => g.Course)
                 .Include(g => g.AcademicYear)
                 .Include(g => g.TblGroupStudents);
+
+            if (studentId.HasValue)
+            {
+                data = data.Where(g => g.TblGroupStudents.Any(gs => gs.StudentId == studentId.Value));
+            }
 
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
             return PagedList<TblGroup>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);

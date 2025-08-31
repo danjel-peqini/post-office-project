@@ -104,6 +104,12 @@ namespace Domain.Mappings
                 .ForMember(dest => dest.AcademicYear, opt => opt.Ignore());
             CreateMap<TblSchedule, SchedulePostDTO>().ReverseMap();
             #endregion
+            #region sessions
+            CreateMap<TblSession, SessionDTO>()
+                .ForMember(dest => dest.Schedule, opt => opt.MapFrom(src => src.Schedule))
+                .ReverseMap()
+                .ForMember(dest => dest.Schedule, opt => opt.Ignore());
+            #endregion
         }
 
 

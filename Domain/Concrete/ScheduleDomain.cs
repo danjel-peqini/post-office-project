@@ -33,12 +33,12 @@ namespace Domain.Concrete
             _unitOfWork.Save();
         }
 
-        public Pagination<ScheduleDTO> GetAllSchedules(QueryParameters queryParameters)
+        public Pagination<ScheduleDTO> GetAllSchedules(QueryParameters queryParameters, Guid? groupId, Guid? studentId, Guid? teacherId)
         {
             // Ensure the query parameters are not null to avoid null reference issues
             queryParameters ??= new QueryParameters();
 
-            var schedules = ScheduleRepository.GetSchedules(queryParameters);
+            var schedules = ScheduleRepository.GetSchedules(queryParameters, groupId, studentId, teacherId);
 
             // Map the result to DTOs and guarantee that the Data list is never null
             var paginatedData = Pagination<ScheduleDTO>.ToPagedList(

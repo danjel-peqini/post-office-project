@@ -1,3 +1,4 @@
+using System;
 using DAL.Contracts;
 using Entities.Models;
 using Helpers;
@@ -14,7 +15,7 @@ namespace DAL.Concrete
         {
         }
 
-        public PagedList<TblSchedule> GetSchedules(QueryParameters queryParameters)
+        public PagedList<TblSchedule> GetSchedules(QueryParameters queryParameters, Guid? groupId = null, Guid? studentId = null, Guid? teacherId = null)
         {
             var data = context
                 .Where(s => s.Status != EntityStatus.Deleted)
@@ -24,6 +25,21 @@ namespace DAL.Concrete
                 .Include(s => s.Teacher).ThenInclude(t => t.User)
                 .Include(s => s.Room)
                 .Include(s => s.AcademicYear);
+
+            if (groupId.HasValue)
+            {
+                data = data.Where(s => s.GroupId == groupId.Value);
+            }
+
+            if (teacherId.HasValue)
+            {
+                data = data.Where(s => s.TeacherId == teacherId.Value);
+            }
+
+            if (studentId.HasValue)
+            {
+                data = data.Where(s => s.Group.TblGroupStudents.Any(gs => gs.StudentId == studentId.Value));
+            }
 
             // Safely handle null query parameters to avoid null reference exceptions
             var filterData = PaginationConfiguration(

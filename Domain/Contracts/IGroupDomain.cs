@@ -7,7 +7,7 @@ namespace Domain.Contracts
 {
     public interface IGroupDomain
     {
-        Pagination<GroupDTO> GetAllGroups(QueryParameters queryParameters);
+        Pagination<GroupDTO> GetAllGroups(QueryParameters queryParameters, Guid? studentId);
         GroupDTO GetGroupById(Guid id);
         void AddNew(GroupPostDTO group);
         GroupDTO Update(Guid id, GroupPostDTO group);

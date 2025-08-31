@@ -1,3 +1,4 @@
+using System;
 using Domain.Contracts;
 using DTO;
 using Helpers.Pagination;
@@ -18,8 +19,8 @@ namespace PostOfficeProject.Controllers
 
         [HttpPost]
         [Route("getAll")]
-        public IActionResult GetAll([FromQuery] QueryParameters queryParameters)
-            => Ok(_scheduleDomain.GetAllSchedules(queryParameters));
+        public IActionResult GetAll([FromQuery] QueryParameters queryParameters, [FromQuery] Guid? groupId, [FromQuery] Guid? studentId, [FromQuery] Guid? teacherId)
+            => Ok(_scheduleDomain.GetAllSchedules(queryParameters, groupId, studentId, teacherId));
 
         [HttpGet]
         [Route("{id}")]
