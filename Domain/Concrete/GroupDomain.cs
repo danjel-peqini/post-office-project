@@ -60,9 +60,9 @@ namespace Domain.Concrete
             _unitOfWork.Save();
         }
 
-        public Pagination<GroupDTO> GetAllGroups(QueryParameters queryParameters)
+        public Pagination<GroupDTO> GetAllGroups(QueryParameters queryParameters, Guid? studentId)
         {
-            var groups = GroupRepository.GetGroups(queryParameters);
+            var groups = GroupRepository.GetGroups(queryParameters, studentId);
             var paginatedData = Pagination<GroupDTO>.ToPagedList(groups, _mapper.Map<List<GroupDTO>>);
             return paginatedData;
         }

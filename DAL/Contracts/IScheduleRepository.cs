@@ -6,6 +6,6 @@ namespace DAL.Contracts
 {
     public interface IScheduleRepository : IRepository<TblSchedule, Guid>
     {
-        PagedList<TblSchedule> GetSchedules(QueryParameters queryParameters);
+        PagedList<TblSchedule> GetSchedules(QueryParameters queryParameters, Guid? groupId = null, Guid? studentId = null, Guid? teacherId = null);
     }
 }
