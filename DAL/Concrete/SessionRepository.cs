@@ -18,7 +18,7 @@ namespace DAL.Concrete
             _dbContext = dbContext;
         }
 
-        public TblSession CreateSession(Guid scheduleId)
+        public TblSession CreateSession(Guid scheduleId, string ipAddress)
         {
             var schedule = _dbContext.TblSchedules.FirstOrDefault(s => s.Id == scheduleId && s.Status != EntityStatus.Deleted);
             if (schedule == null) throw new Exception("Schedule not found");
@@ -46,6 +46,7 @@ namespace DAL.Concrete
                 IsOpen = true,
                 Otp = GenerateOtp(),
                 OtpcreatedAt = DateTime.UtcNow,
+                IpAddress = ipAddress,
                 Status = EntityStatus.Active
             };
 

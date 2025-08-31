@@ -17,10 +17,30 @@ namespace DAL.Concrete
             _dbContext = dbContext;
         }
 
-        public TblAttendance CheckIn(string studentCardCode, Guid sessionId)
+        public TblAttendance CheckIn(string studentCardCode, Guid sessionId, string requestIp)
         {
-            var student = _dbContext.TblStudentCards.FirstOrDefault(x => x.StudentCardCode == studentCardCode);
+            var student = _dbContext.TblStudentCards
+                .Include(s => s.TblGroupStudents)
+                .FirstOrDefault(x => x.StudentCardCode == studentCardCode);
             if (student == null) throw new Exception("Student card not found");
+
+            var session = _dbContext.TblSessions
+                .Include(s => s.Schedule)
+                .ThenInclude(sc => sc.Group)
+                .FirstOrDefault(s => s.Id == sessionId && s.Status != EntityStatus.Deleted);
+            if (session == null) throw new Exception("Session not found");
+
+            if (string.IsNullOrEmpty(session.IpAddress))
+                throw new Exception("Session network not configured");
+            if (session.IpAddress != requestIp)
+                throw new Exception("Invalid network");
+
+            var belongs = _dbContext.TblGroupStudents.Any(gs => gs.GroupId == session.Schedule.GroupId && gs.StudentId == student.Id);
+            if (!belongs) throw new Exception("Student not in this session");
+
+            var already = _dbContext.TblAttendances.Any(a => a.SessionId == sessionId && a.StudentId == student.Id && a.Status != EntityStatus.Deleted);
+            if (already) throw new Exception("Student already checked in");
+
             var attendance = new TblAttendance
             {
                 Id = Guid.NewGuid(),

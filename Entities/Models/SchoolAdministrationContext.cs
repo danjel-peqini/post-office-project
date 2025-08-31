@@ -292,6 +292,9 @@ namespace Entities.Models
 
                 entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
+                entity.Property(e => e.IpAddress)
+                    .HasMaxLength(45);
+
                 entity.HasOne(d => d.Schedule)
                     .WithMany(p => p.TblSessions)
                     .HasForeignKey(d => d.ScheduleId)
