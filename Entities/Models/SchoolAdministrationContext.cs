@@ -102,8 +102,7 @@ namespace Entities.Models
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.CheckInTime)
-                    .HasConversion(dateTimeOffsetConverter)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetimeoffset");
 
                 entity.Property(e => e.CheckedInBy).HasMaxLength(50);
 

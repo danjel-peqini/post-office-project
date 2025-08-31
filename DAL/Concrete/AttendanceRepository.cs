@@ -62,7 +62,9 @@ namespace DAL.Concrete
 
         public IEnumerable<TblAttendance> GetBySession(Guid sessionId)
         {
-            return _dbContext.TblAttendances.Where(a => a.SessionId == sessionId && a.Status != EntityStatus.Deleted).AsNoTracking().ToList();
+            return _dbContext.TblAttendances
+                .Include(a => a.Student).ThenInclude(b => b.User)
+                .Where(a => a.SessionId == sessionId && a.Status != EntityStatus.Deleted).AsNoTracking().ToList();
         }
 
         public TblAttendance AddAttendance(Guid sessionId, Guid studentId, Guid teacherId)
@@ -94,9 +96,8 @@ namespace DAL.Concrete
 
         public void RemoveAttendance(Guid attendanceId)
         {
-            var entity = _dbContext.TblAttendances.FirstOrDefault(a => a.Id == attendanceId && a.Status != EntityStatus.Deleted);
-            if (entity == null) throw new Exception("Attendance not found");
-            Remove(entity);
+            var entity = _dbContext.TblAttendances.FirstOrDefault(a => a.Id == attendanceId);
+            _dbContext.TblAttendances.Remove(entity);
             _dbContext.SaveChanges();
         }
 

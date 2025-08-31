@@ -8,6 +8,7 @@ namespace DTO
         public Guid Id { get; set; }
         public Guid SessionId { get; set; }
         public Guid StudentId { get; set; }
+        public StudentCardDTO Student {  get; set; }
         public DateTimeOffset CheckInTime { get; set; }
         public string CheckedInBy { get; set; } = null!;
         public EntityStatus Status { get; set; }
