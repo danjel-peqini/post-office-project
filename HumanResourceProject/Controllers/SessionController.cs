@@ -2,6 +2,7 @@ using Domain.Contracts;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace PostOfficeProject.Controllers
 {
@@ -33,8 +34,8 @@ namespace PostOfficeProject.Controllers
 
         [HttpPost]
         [Route("{sessionId}/close")]
-        public IActionResult Close([FromRoute] Guid sessionId)
-            => Ok(_sessionDomain.CloseSession(sessionId));
+        public async Task<IActionResult> Close([FromRoute] Guid sessionId)
+            => Ok(await _sessionDomain.CloseSession(sessionId));
 
         [HttpGet]
         [Route("{sessionId}")]

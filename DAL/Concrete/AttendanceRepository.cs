@@ -59,5 +59,15 @@ namespace DAL.Concrete
         {
             return _dbContext.TblAttendances.Where(a => a.StudentId == studentCardId && a.Status != EntityStatus.Deleted).AsNoTracking().ToList();
         }
+
+        public bool HasAttendance(Guid sessionId, Guid studentId)
+        {
+            return context.Any(a => a.SessionId == sessionId && a.StudentId == studentId && a.Status != EntityStatus.Deleted);
+        }
+
+        public int CountAttendances(Guid studentId, IEnumerable<Guid> sessionIds)
+        {
+            return context.Count(a => a.StudentId == studentId && sessionIds.Contains(a.SessionId) && a.Status != EntityStatus.Deleted);
+        }
     }
 }

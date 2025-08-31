@@ -8,5 +8,7 @@ namespace DAL.Contracts
     {
         TblAttendance CheckIn(string studentCardCode, Guid sessionId, string requestIp);
         IEnumerable<TblAttendance> GetByStudent(Guid studentCardId);
+        bool HasAttendance(Guid sessionId, Guid studentId);
+        int CountAttendances(Guid studentId, IEnumerable<Guid> sessionIds);
     }
 }

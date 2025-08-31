@@ -5,6 +5,7 @@ using Helpers.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using static Helpers.Pagination.QueryParameters;
 
 namespace DAL.Concrete
@@ -110,6 +111,18 @@ namespace DAL.Concrete
                 .Include(s => s.Schedule).ThenInclude(sc => sc.Room)
                 .Include(s => s.Schedule).ThenInclude(sc => sc.AcademicYear)
                 .FirstOrDefault(s => s.Id == id && s.Status != EntityStatus.Deleted);
+        }
+
+        public IEnumerable<Guid> GetSessionIdsByCourseAndGroup(Guid courseId, Guid groupId, Guid academicYearId)
+        {
+            return context
+                .Include(s => s.Schedule)
+                .Where(s => s.Schedule.CourseId == courseId
+                         && s.Schedule.GroupId == groupId
+                         && s.Schedule.AcademicYearId == academicYearId
+                         && s.Status != EntityStatus.Deleted)
+                .Select(s => s.Id)
+                .ToList();
         }
 
         private string GenerateOtp()
