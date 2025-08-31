@@ -14,6 +14,6 @@ namespace Domain.Contracts
         void Delete(Guid id);
         void AddStudents(Guid groupId, GroupStudentPostDTO dto);
         void RemoveStudents(Guid groupId, GroupStudentPostDTO dto);
-        IEnumerable<Guid> GetStudents(Guid groupId);
+        IEnumerable<StudentCardDTO> GetStudents(Guid groupId);
     }
 }

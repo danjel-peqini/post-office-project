@@ -13,7 +13,6 @@ namespace DTO
         public CourseDTO Course { get; set; }
         public AcademicYearDTO AcademicYear { get; set; }
         public List<Guid> StudentIds { get; set; }
-        public List<StudentCardDTO> Students { get; set; }
         public int StudentsLength { get; set; }
         public EntityStatus Status { get; set; }
     }
