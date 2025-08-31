@@ -24,7 +24,7 @@ namespace DAL.Concrete
 
             if (studentId.HasValue)
             {
-                data = data.Where(g => g.TblGroupStudents.Any(gs => gs.StudentId == studentId.Value));
+                data = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<TblGroup, ICollection<TblGroupStudent>>)data.Where(g => g.TblGroupStudents.Any(gs => gs.StudentId == studentId.Value));
             }
 
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
