@@ -25,7 +25,13 @@ namespace Domain.Concrete
             var ipAddress = _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
             if (string.IsNullOrEmpty(ipAddress))
                 throw new Exception("Unable to determine IP address");
-            var entity = AttendanceRepository.CheckIn(dto.StudentCardCode, dto.SessionId, ipAddress);
+            var entity = AttendanceRepository.CheckIn(dto.StudentId, dto.SessionOtp, ipAddress);
+            return _mapper.Map<AttendanceDTO>(entity);
+        }
+
+        public AttendanceDTO Scan(AttendanceScanDTO dto)
+        {
+            var entity = AttendanceRepository.Scan(dto.StudentCardCode, dto.SessionId);
             return _mapper.Map<AttendanceDTO>(entity);
         }
 

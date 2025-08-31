@@ -6,7 +6,8 @@ namespace DAL.Contracts
 {
     public interface IAttendanceRepository : IRepository<TblAttendance, Guid>
     {
-        TblAttendance CheckIn(string studentCardCode, Guid sessionId, string requestIp);
+        TblAttendance CheckIn(Guid studentId, string sessionOtp, string requestIp);
+        TblAttendance Scan(string studentCardCode, Guid sessionId);
         IEnumerable<TblAttendance> GetByStudent(Guid studentCardId);
         IEnumerable<TblAttendance> GetBySession(Guid sessionId);
         TblAttendance AddAttendance(Guid sessionId, Guid studentId, Guid teacherId);

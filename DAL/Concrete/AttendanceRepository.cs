@@ -17,7 +17,48 @@ namespace DAL.Concrete
             _dbContext = dbContext;
         }
 
-        public TblAttendance CheckIn(string studentCardCode, Guid sessionId, string requestIp)
+        public TblAttendance CheckIn(Guid studentId, string sessionOtp, string requestIp)
+        {
+            var student = _dbContext.TblStudentCards
+                .Include(s => s.TblGroupStudents)
+                .FirstOrDefault(x => x.Id == studentId);
+            if (student == null) throw new Exception("Student not found");
+
+            var session = _dbContext.TblSessions
+                .Include(s => s.Schedule)
+                .ThenInclude(sc => sc.Group)
+                .FirstOrDefault(s => s.Otp == sessionOtp && s.IsOpen == true && s.Status != EntityStatus.Deleted);
+            if (session == null) throw new Exception("Session not found");
+
+            if (!session.OtpcreatedAt.HasValue || session.OtpcreatedAt.Value.AddMinutes(30) < DateTime.UtcNow)
+                throw new Exception("Session OTP expired");
+
+            if (string.IsNullOrEmpty(session.IpAddress))
+                throw new Exception("Session network not configured");
+            if (session.IpAddress != requestIp)
+                throw new Exception("Invalid network");
+
+            var belongs = _dbContext.TblGroupStudents.Any(gs => gs.GroupId == session.Schedule.GroupId && gs.StudentId == student.Id);
+            if (!belongs) throw new Exception("Student not in this session");
+
+            var already = _dbContext.TblAttendances.Any(a => a.SessionId == session.Id && a.StudentId == student.Id && a.Status != EntityStatus.Deleted);
+            if (already) throw new Exception("Student already checked in");
+
+            var attendance = new TblAttendance
+            {
+                Id = Guid.NewGuid(),
+                SessionId = session.Id,
+                StudentId = student.Id,
+                CheckInTime = DateTimeOffset.UtcNow,
+                CheckedInBy = "student",
+                Status = EntityStatus.Active
+            };
+            Add(attendance);
+            _dbContext.SaveChanges();
+            return attendance;
+        }
+
+        public TblAttendance Scan(string studentCardCode, Guid sessionId)
         {
             var student = _dbContext.TblStudentCards
                 .Include(s => s.TblGroupStudents)
@@ -29,11 +70,6 @@ namespace DAL.Concrete
                 .ThenInclude(sc => sc.Group)
                 .FirstOrDefault(s => s.Id == sessionId && s.Status != EntityStatus.Deleted);
             if (session == null) throw new Exception("Session not found");
-
-            if (string.IsNullOrEmpty(session.IpAddress))
-                throw new Exception("Session network not configured");
-            if (session.IpAddress != requestIp)
-                throw new Exception("Invalid network");
 
             var belongs = _dbContext.TblGroupStudents.Any(gs => gs.GroupId == session.Schedule.GroupId && gs.StudentId == student.Id);
             if (!belongs) throw new Exception("Student not in this session");

@@ -7,6 +7,7 @@ namespace Domain.Contracts
     public interface IAttendanceDomain
     {
         AttendanceDTO CheckIn(AttendanceCheckInDTO dto);
+        AttendanceDTO Scan(AttendanceScanDTO dto);
         IEnumerable<AttendanceDTO> GetByStudentCardId(Guid studentCardId);
         IEnumerable<AttendanceDTO> GetBySessionId(Guid sessionId);
         AttendanceDTO AddAttendance(AttendanceAddDTO dto);
