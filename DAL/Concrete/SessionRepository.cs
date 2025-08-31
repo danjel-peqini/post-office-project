@@ -20,7 +20,19 @@ namespace DAL.Concrete
             var schedule = _dbContext.TblSchedules.FirstOrDefault(s => s.Id == scheduleId && s.Status != EntityStatus.Deleted);
             if (schedule == null) throw new Exception("Schedule not found");
 
-            var today = DateTime.UtcNow.Date;
+            var now = DateTime.UtcNow;
+
+            // ensure the session is created on the scheduled day
+            if (schedule.DayOfWeek != (Helpers.DayOfWeek)now.DayOfWeek)
+                throw new Exception("Session can only be created on the scheduled day");
+
+            // ensure the current time is within the scheduled time range
+            var start = schedule.StartTime.TimeOfDay;
+            var end = schedule.EndTime.TimeOfDay;
+            if (now.TimeOfDay < start || now.TimeOfDay > end)
+                throw new Exception("Session can only be created within the scheduled time range");
+
+            var today = now.Date;
             var sessionDate = today.Add(schedule.StartTime.TimeOfDay);
 
             var session = new TblSession
