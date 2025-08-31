@@ -15,7 +15,7 @@ namespace Entities.Models
 
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public Guid DepartmentId { get; set; }
+        public Guid ProgramId { get; set; }
         public Guid AcademicYearId { get; set; }
         public string StudentCardCode { get; set; } = null!;
         public DateTimeOffset? CreatedDate { get; set; }
@@ -23,7 +23,7 @@ namespace Entities.Models
         public EntityStatus Status { get; set; }
 
         public virtual TblAcademicYear AcademicYear { get; set; } = null!;
-        public virtual TblDepartment Department { get; set; } = null!;
+        public virtual TblProgram Program { get; set; } = null!;
         public virtual TblUser User { get; set; } = null!;
         public virtual ICollection<TblAbsenceWarning> TblAbsenceWarnings { get; set; }
         public virtual ICollection<TblAttendance> TblAttendances { get; set; }
