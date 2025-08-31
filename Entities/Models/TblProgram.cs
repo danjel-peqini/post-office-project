@@ -10,6 +10,7 @@ namespace Entities.Models
         {
             TblCourses = new HashSet<TblCourse>();
             TblGroups = new HashSet<TblGroup>();
+            TblStudentCards = new HashSet<TblStudentCard>();
         }
 
         public Guid Id { get; set; }
@@ -20,5 +21,6 @@ namespace Entities.Models
         public virtual TblDepartment Department { get; set; } = null!;
         public virtual ICollection<TblCourse> TblCourses { get; set; }
         public virtual ICollection<TblGroup> TblGroups { get; set; }
+        public virtual ICollection<TblStudentCard> TblStudentCards { get; set; }
     }
 }

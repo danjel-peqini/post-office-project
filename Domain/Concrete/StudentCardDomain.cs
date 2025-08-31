@@ -22,7 +22,7 @@ namespace Domain.Concrete
 
         public void AddNew(StudentCardPostDTO dto)
         {
-            if (!dto.UserId.HasValue || !dto.DepartmentId.HasValue || !dto.AcademicYearId.HasValue)
+            if (!dto.UserId.HasValue || !dto.ProgramId.HasValue || !dto.AcademicYearId.HasValue)
                 throw new Exception("Missing required data");
 
             StudentCardRepository.DisableCardsByUser(dto.UserId.Value);
@@ -41,9 +41,9 @@ namespace Domain.Concrete
             _unitOfWork.Save();
         }
 
-        public Pagination<StudentCardDTO> GetAll(QueryParameters queryParameters, Guid? userId, Guid? academicYearId, Guid? departmentId)
+        public Pagination<StudentCardDTO> GetAll(QueryParameters queryParameters, Guid? userId, Guid? academicYearId, Guid? programId)
         {
-            var cards = StudentCardRepository.GetStudentCards(queryParameters, userId, academicYearId, departmentId);
+            var cards = StudentCardRepository.GetStudentCards(queryParameters, userId, academicYearId, programId);
             var paginatedData = Pagination<StudentCardDTO>.ToPagedList(cards, _mapper.Map<List<StudentCardDTO>>);
             return paginatedData;
         }
@@ -60,7 +60,7 @@ namespace Domain.Concrete
             var entity = StudentCardRepository.GetById(id);
             if (entity == null) throw new Exception("Student card not found");
             if (dto.UserId.HasValue) entity.UserId = dto.UserId.Value;
-            if (dto.DepartmentId.HasValue) entity.DepartmentId = dto.DepartmentId.Value;
+            if (dto.ProgramId.HasValue) entity.ProgramId = dto.ProgramId.Value;
             if (dto.AcademicYearId.HasValue) entity.AcademicYearId = dto.AcademicYearId.Value;
             StudentCardRepository.SetModified(entity);
             _unitOfWork.Save();
