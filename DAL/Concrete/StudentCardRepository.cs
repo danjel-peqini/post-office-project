@@ -65,5 +65,14 @@ namespace DAL.Concrete
                 .Include(x => x.AcademicYear)
                 .FirstOrDefault(x => x.Id == id && x.Status != EntityStatus.Deleted);
         }
+
+        public TblStudentCard GetByUserId(Guid userId)
+        {
+            return context
+                .Include(x => x.User)
+                .Include(x => x.Program)
+                .Include(x => x.AcademicYear)
+                .FirstOrDefault(x => x.UserId == userId && x.Status != EntityStatus.Deleted);
+        }
     }
 }

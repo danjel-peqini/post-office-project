@@ -55,6 +55,13 @@ namespace Domain.Concrete
             return _mapper.Map<StudentCardDTO>(entity);
         }
 
+        public StudentCardDTO GetByUserId(Guid userId)
+        {
+            var entity = StudentCardRepository.GetByUserId(userId);
+            if (entity == null) throw new Exception("Student card not found");
+            return _mapper.Map<StudentCardDTO>(entity);
+        }
+
         public StudentCardDTO Update(Guid id, StudentCardPostDTO dto)
         {
             var entity = StudentCardRepository.GetById(id);
