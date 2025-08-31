@@ -3,8 +3,10 @@ using DAL.Contracts;
 using DAL.UoW;
 using Domain.Contracts;
 using DTO;
+using Helpers.Pagination;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 
 namespace Domain.Concrete
 {
@@ -35,6 +37,17 @@ namespace Domain.Concrete
             var entity = SessionRepository.CloseSession(sessionId);
             _unitOfWork.Save();
             return _mapper.Map<SessionDTO>(entity);
+        }
+
+        public Pagination<SessionDTO> GetAllSessions(QueryParameters queryParameters, Guid? teacherId)
+        {
+            queryParameters ??= new QueryParameters();
+            var sessions = SessionRepository.GetSessions(queryParameters, teacherId);
+            var paginatedData = Pagination<SessionDTO>.ToPagedList(
+                sessions,
+                src => _mapper.Map<List<SessionDTO>>(src) ?? new List<SessionDTO>());
+
+            return paginatedData;
         }
     }
 }

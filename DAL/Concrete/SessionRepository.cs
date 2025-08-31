@@ -1,6 +1,8 @@
 using DAL.Contracts;
 using Entities.Models;
 using Helpers;
+using Helpers.Pagination;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -68,6 +70,34 @@ namespace DAL.Concrete
             session.IsOpen = false;
             Update(session);
             return session;
+        }
+
+        public PagedList<TblSession> GetSessions(QueryParameters queryParameters, Guid? teacherId = null)
+        {
+            var data = context
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Course).ThenInclude(c => c.Program)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Group).ThenInclude(g => g.Program).ThenInclude(p => p.Department)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Group).ThenInclude(g => g.TblGroupStudents)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Teacher).ThenInclude(t => t.User)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.Room)
+                .Include(s => s.Schedule).ThenInclude(sc => sc.AcademicYear)
+                .Where(s => s.Status != EntityStatus.Deleted);
+
+            if (teacherId.HasValue)
+            {
+                data = data.Where(s => s.Schedule.TeacherId == teacherId.Value);
+            }
+
+            var filterData = PaginationConfiguration(
+                data,
+                queryParameters?.SortField,
+                queryParameters?.SortOrder,
+                queryParameters?.SearchValue);
+
+            return PagedList<TblSession>.ToPagedList(
+                filterData,
+                queryParameters?.CurrentPage ?? 1,
+                queryParameters?.PageSize ?? 10);
         }
 
         private string GenerateOtp()
