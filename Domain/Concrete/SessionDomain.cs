@@ -8,11 +8,9 @@ using System;
 
 namespace Domain.Concrete
 {
-    // The domain class is used from the DI registry and needs to be
-    // publicly visible so the container can resolve it.  Using the
-    // same visibility as the other domain implementations avoids
-    // compilation issues when wiring up dependencies.
+
     public class SessionDomain : DomainBase, ISessionDomain
+
     {
         public SessionDomain(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(unitOfWork, mapper, httpContextAccessor)
         {

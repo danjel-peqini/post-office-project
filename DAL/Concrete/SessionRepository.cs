@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace DAL.Concrete
 {
-    // The repository is registered with the DI container so it must be
-    // publicly visible outside of this assembly.
+
     public class SessionRepository : BaseRepository<TblSession, Guid>, ISessionRepository
+
     {
         private readonly SchoolAdministrationContext _dbContext;
 

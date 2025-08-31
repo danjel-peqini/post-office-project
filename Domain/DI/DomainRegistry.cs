@@ -27,8 +27,9 @@ namespace Domain.DI
             For<IGroupDomain>().Use<GroupDomain>();
             For<ITeacherDomain>().Use<TeacherDomain>();
             For<IScheduleDomain>().Use<ScheduleDomain>();
-            // Register session domain for OTP generation and manual closure
+
             For<ISessionDomain>().Use<Domain.Concrete.SessionDomain>();
+
 
             AddRepositoryRegistries();
             AddHttpContextRegistries();
