@@ -21,6 +21,7 @@ namespace Entities.Models
         public virtual DbSet<TblAcademicYear> TblAcademicYears { get; set; } = null!;
         public virtual DbSet<TblAttendance> TblAttendances { get; set; } = null!;
         public virtual DbSet<TblCourse> TblCourses { get; set; } = null!;
+        public virtual DbSet<TblProgram> TblPrograms { get; set; } = null!;
         public virtual DbSet<TblDepartment> TblDepartments { get; set; } = null!;
         public virtual DbSet<TblGroup> TblGroups { get; set; } = null!;
         public virtual DbSet<TblGroupStudent> TblGroupStudents { get; set; } = null!;
@@ -133,11 +134,10 @@ namespace Entities.Models
 
                 entity.Property(e => e.TotalHours).HasColumnName("totalHours");
 
-                entity.HasOne(d => d.Department)
+                entity.HasOne(d => d.Program)
                     .WithMany(p => p.TblCourses)
-                    .HasForeignKey(d => d.DepartmentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblCourse__Depar__693CA210");
+                    .HasForeignKey(d => d.ProgramId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<TblDepartment>(entity =>
@@ -152,6 +152,22 @@ namespace Entities.Models
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetimeoffset");
+            });
+
+            modelBuilder.Entity<TblProgram>(entity =>
+            {
+                entity.ToTable("tblProgram");
+
+                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.HasOne(d => d.Department)
+                    .WithMany(p => p.TblPrograms)
+                    .HasForeignKey(d => d.DepartmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<TblGroup>(entity =>
@@ -170,11 +186,10 @@ namespace Entities.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__tblGroup__Academ__76969D2E");
 
-                entity.HasOne(d => d.Course)
+                entity.HasOne(d => d.Program)
                     .WithMany(p => p.TblGroups)
-                    .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblGroup__Course__75A278F5");
+                    .HasForeignKey(d => d.ProgramId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<TblGroupStudent>(entity =>

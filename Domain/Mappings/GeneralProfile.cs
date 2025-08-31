@@ -33,16 +33,29 @@ namespace Domain.Mappings
             CreateMap<TblDepartment, DepartmantDTO>().ReverseMap();
             CreateMap<TblDepartment, DepartmantPostDTO>().ReverseMap();
             #endregion
-            #region course
-            CreateMap<TblCourse, CourseDTO>()
+            #region programs
+            CreateMap<TblProgram, ProgramDTO>()
                 .ForMember(dest => dest.Departmant, opt => opt.MapFrom(src => src.Department))
                 .ReverseMap()
                 .ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Departmant));
 
-            CreateMap<TblCourse, CoursePostDTO>()
+            CreateMap<TblProgram, ProgramPostDTO>()
                 .ForMember(dest => dest.DepartmantId, opt => opt.MapFrom(src => src.DepartmentId))
                 .ReverseMap()
                 .ForMember(dest => dest.DepartmentId, opt => opt.MapFrom(src => src.DepartmantId));
+
+            CreateMap<ProgramPostDTO, ProgramDTO>().ReverseMap();
+            #endregion
+            #region course
+            CreateMap<TblCourse, CourseDTO>()
+                .ForMember(dest => dest.Program, opt => opt.MapFrom(src => src.Program))
+                .ReverseMap()
+                .ForMember(dest => dest.Program, opt => opt.MapFrom(src => src.Program));
+
+            CreateMap<TblCourse, CoursePostDTO>()
+                .ForMember(dest => dest.ProgramId, opt => opt.MapFrom(src => src.ProgramId))
+                .ReverseMap()
+                .ForMember(dest => dest.ProgramId, opt => opt.MapFrom(src => src.ProgramId));
 
             CreateMap<CoursePostDTO, CourseDTO>().ReverseMap();
             #endregion
@@ -79,12 +92,12 @@ namespace Domain.Mappings
             #endregion
             #region groups
             CreateMap<TblGroup, GroupDTO>()
-                .ForMember(dest => dest.Course, opt => opt.MapFrom(src => src.Course))
+                .ForMember(dest => dest.Program, opt => opt.MapFrom(src => src.Program))
                 .ForMember(dest => dest.AcademicYear, opt => opt.MapFrom(src => src.AcademicYear))
                 .ForMember(dest => dest.StudentIds, opt => opt.MapFrom(src => src.TblGroupStudents.Select(gs => gs.StudentId)))
                 .ForMember(dest => dest.StudentsLength, opt => opt.MapFrom(src => src.TblGroupStudents.Count))
                 .ReverseMap()
-                .ForMember(dest => dest.Course, opt => opt.Ignore())
+                .ForMember(dest => dest.Program, opt => opt.Ignore())
                 .ForMember(dest => dest.AcademicYear, opt => opt.Ignore())
                 .ForMember(dest => dest.TblGroupStudents, opt => opt.Ignore());
             CreateMap<TblGroup, GroupPostDTO>().ReverseMap();

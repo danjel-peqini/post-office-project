@@ -8,9 +8,9 @@ namespace DTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Guid CourseId { get; set; }
+        public Guid ProgramId { get; set; }
         public Guid AcademicYearId { get; set; }
-        public CourseDTO Course { get; set; }
+        public ProgramDTO Program { get; set; }
         public AcademicYearDTO AcademicYear { get; set; }
         public List<Guid> StudentIds { get; set; }
         public int StudentsLength { get; set; }
@@ -20,7 +20,7 @@ namespace DTO
     public class GroupPostDTO
     {
         public string? Name { get; set; }
-        public Guid? CourseId { get; set; }
+        public Guid? ProgramId { get; set; }
         public Guid? AcademicYearId { get; set; }
         public List<Guid>? StudentIds { get; set; }
         public EntityStatus? Status { get; set; }
