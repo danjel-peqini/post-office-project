@@ -35,8 +35,16 @@ namespace Domain.Concrete
 
         public Pagination<ScheduleDTO> GetAllSchedules(QueryParameters queryParameters)
         {
+            // Ensure the query parameters are not null to avoid null reference issues
+            queryParameters ??= new QueryParameters();
+
             var schedules = ScheduleRepository.GetSchedules(queryParameters);
-            var paginatedData = Pagination<ScheduleDTO>.ToPagedList(schedules, _mapper.Map<List<ScheduleDTO>>);
+
+            // Map the result to DTOs and guarantee that the Data list is never null
+            var paginatedData = Pagination<ScheduleDTO>.ToPagedList(
+                schedules,
+                src => _mapper.Map<List<ScheduleDTO>>(src) ?? new List<ScheduleDTO>());
+
             return paginatedData;
         }
 
