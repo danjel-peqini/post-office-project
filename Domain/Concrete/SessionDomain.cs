@@ -127,5 +127,11 @@ namespace Domain.Concrete
             }
             return _mapper.Map<SessionDTO>(session);
         }
+
+        public SessionDTO? GetLatestOpenSession(Guid scheduleId)
+        {
+            var session = SessionRepository.GetLatestOpenSession(scheduleId);
+            return session == null ? null : _mapper.Map<SessionDTO>(session);
+        }
     }
 }

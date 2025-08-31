@@ -12,5 +12,6 @@ namespace Domain.Contracts
         Task<SessionDTO> CloseSession(Guid sessionId);
         Pagination<SessionDTO> GetAllSessions(QueryParameters queryParameters, Guid? teacherId);
         SessionDTO GetSessionById(Guid sessionId);
+        SessionDTO? GetLatestOpenSession(Guid scheduleId);
     }
 }
