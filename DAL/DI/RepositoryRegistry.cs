@@ -29,6 +29,7 @@ namespace DAL.DI
             For<ITeacherRepository>().Use<TeacherRepository>();
             For<IScheduleRepository>().Use<ScheduleRepository>();
             For<ISessionRepository>().Use<SessionRepository>();
+            For<IAbsenceWarningRepository>().Use<AbsenceWarningRepository>();
             //    For<IHistoryRepository>().Use<HistoryRepository>();
             //    For<IPostOfficeRepository>().Use<PostOfficeRepository>();
             //    For<IPackageRepository>().Use<PackageRepository>();
