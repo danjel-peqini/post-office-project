@@ -37,6 +37,8 @@ namespace DAL.Concrete
                 .Include(g => g.Course)
                 .Include(g => g.AcademicYear)
                 .Include(g => g.TblGroupStudents)
+                    .ThenInclude(gs => gs.Student)
+                        .ThenInclude(s => s.User)
                 .FirstOrDefault(g => g.Id == id && g.Status != EntityStatus.Deleted);
         }
     }

@@ -82,6 +82,9 @@ namespace Domain.Mappings
                 .ForMember(dest => dest.Course, opt => opt.MapFrom(src => src.Course))
                 .ForMember(dest => dest.AcademicYear, opt => opt.MapFrom(src => src.AcademicYear))
                 .ForMember(dest => dest.StudentIds, opt => opt.MapFrom(src => src.TblGroupStudents.Select(gs => gs.StudentId)))
+                .ForMember(dest => dest.Students, opt => opt.MapFrom(src => src.TblGroupStudents
+                    .Where(gs => gs.Student != null)
+                    .Select(gs => gs.Student)))
                 .ForMember(dest => dest.StudentsLength, opt => opt.MapFrom(src => src.TblGroupStudents.Count))
                 .ReverseMap()
                 .ForMember(dest => dest.Course, opt => opt.Ignore())
