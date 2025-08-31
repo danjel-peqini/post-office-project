@@ -21,6 +21,7 @@ namespace Domain.DI
             For<IDepartmantDomain>().Use<DepartmantDomain>();
             For<IAcademicYearDomain>().Use<AcademicYearDomain>();
             For<IAttendanceDomain>().Use<AttendanceDomain>();
+            For<IAbsenceWarningDomain>().Use<AbsenceWarningDomain>();
             For<IRoomDomain>().Use<RoomDomain>();
             For<ICourseDomain>().Use<CourseDomain>();
             For<IProgramDomain>().Use<ProgramDomain>();

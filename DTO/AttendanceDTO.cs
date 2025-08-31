@@ -18,4 +18,10 @@ namespace DTO
         public string StudentCardCode { get; set; } = null!;
         public Guid SessionId { get; set; }
     }
+
+    public class AttendanceAddDTO
+    {
+        public Guid SessionId { get; set; }
+        public Guid StudentId { get; set; }
+    }
 }
