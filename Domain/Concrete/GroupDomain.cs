@@ -21,6 +21,7 @@ namespace Domain.Concrete
 
         private IGroupRepository GroupRepository => _unitOfWork.GetRepository<IGroupRepository>();
         private IGroupStudentRepository GroupStudentRepository => _unitOfWork.GetRepository<IGroupStudentRepository>();
+        private IStudentCardRepository StudentCardRepository => _unitOfWork.GetRepository<IStudentCardRepository>();
 
         public void AddNew(GroupPostDTO group)
         {
@@ -141,9 +142,14 @@ namespace Domain.Concrete
             _unitOfWork.Save();
         }
 
-        public IEnumerable<Guid> GetStudents(Guid groupId)
+        public IEnumerable<StudentCardDTO> GetStudents(Guid groupId)
         {
-            return GroupStudentRepository.GetStudentIdsByGroupId(groupId);
+            var studentIds = GroupStudentRepository.GetStudentIdsByGroupId(groupId).ToList();
+            if (!studentIds.Any())
+                return new List<StudentCardDTO>();
+
+            var students = StudentCardRepository.GetByIds(studentIds);
+            return _mapper.Map<IEnumerable<StudentCardDTO>>(students);
         }
     }
 }

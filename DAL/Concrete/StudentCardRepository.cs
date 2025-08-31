@@ -4,6 +4,7 @@ using Helpers;
 using Helpers.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using static Helpers.Pagination.QueryParameters;
 
@@ -44,6 +45,16 @@ namespace DAL.Concrete
                 data = data.Where(x => x.DepartmentId == departmentId.Value);
             var filterData = PaginationConfiguration(data, queryParameters.SortField, queryParameters.SortOrder, queryParameters.SearchValue);
             return PagedList<TblStudentCard>.ToPagedList(filterData, queryParameters == null ? 1 : queryParameters.CurrentPage, queryParameters == null ? 10 : queryParameters.PageSize);
+        }
+
+        public IEnumerable<TblStudentCard> GetByIds(IEnumerable<Guid> ids)
+        {
+            return context
+                .Include(x => x.User)
+                .Include(x => x.Department)
+                .Include(x => x.AcademicYear)
+                .Where(x => ids.Contains(x.Id) && x.Status != EntityStatus.Deleted)
+                .ToList();
         }
 
         public override TblStudentCard GetById(Guid id)
