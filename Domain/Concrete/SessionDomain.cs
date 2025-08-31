@@ -6,6 +6,7 @@ using DTO;
 using Helpers.Email;
 using Helpers.Pagination;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,12 @@ namespace Domain.Concrete
     internal class SessionDomain : DomainBase, ISessionDomain
     {
         private readonly EmailService _emailService;
+        private readonly IConfiguration _configuration;
 
-        public SessionDomain(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, EmailService emailService) : base(unitOfWork, mapper, httpContextAccessor)
+        public SessionDomain(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, EmailService emailService, IConfiguration configuration) : base(unitOfWork, mapper, httpContextAccessor)
         {
             _emailService = emailService;
+            _configuration = configuration;
         }
 
         private ISessionRepository SessionRepository => _unitOfWork.GetRepository<ISessionRepository>();
@@ -30,7 +33,13 @@ namespace Domain.Concrete
 
         public SessionDTO CreateSession(Guid scheduleId)
         {
-            var entity = SessionRepository.CreateSession(scheduleId);
+            var ipAddress = _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            if (string.IsNullOrEmpty(ipAddress))
+                throw new Exception("Unable to determine IP address");
+            var allowedIps = _configuration.GetSection("AllowedIPs").Get<List<string>>() ?? new List<string>();
+            if (!allowedIps.Contains(ipAddress))
+                throw new Exception("IP address not allowed");
+            var entity = SessionRepository.CreateSession(scheduleId, ipAddress);
             _unitOfWork.Save();
             return _mapper.Map<SessionDTO>(entity);
         }
