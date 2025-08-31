@@ -13,5 +13,6 @@ namespace DAL.Contracts
         void RemoveAttendance(Guid attendanceId);
         bool HasAttendance(Guid sessionId, Guid studentId);
         int CountAttendances(Guid studentId, IEnumerable<Guid> sessionIds);
+        IEnumerable<CourseAttendanceSummary> GetCourseAttendanceByStudent(Guid studentId);
     }
 }

@@ -70,6 +70,7 @@ namespace Domain.Mappings
             #region attendance
             CreateMap<TblAttendance, AttendanceDTO>().ReverseMap();
             CreateMap<TblAttendance, AttendanceCheckInDTO>().ReverseMap();
+            CreateMap<CourseAttendanceSummary, CourseAttendanceSummaryDTO>().ReverseMap();
             #endregion
             #region studentCard
             CreateMap<TblStudentCard, StudentCardDTO>().ReverseMap();

@@ -32,6 +32,13 @@ namespace HumanResourceProject.Controllers
             return Ok(result);
         }
 
+        [HttpGet("student/{studentCardId}/courses")]
+        public IActionResult GetCourseAttendance(Guid studentCardId)
+        {
+            var result = _attendanceDomain.GetCourseAttendanceByStudent(studentCardId);
+            return Ok(result);
+        }
+
         [HttpGet("session/{sessionId}")]
         public IActionResult GetBySession(Guid sessionId)
         {
