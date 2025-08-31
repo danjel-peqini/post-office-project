@@ -3,6 +3,7 @@ using DAL.Contracts;
 using DAL.UoW;
 using Domain.Contracts;
 using DTO;
+using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace Domain.Concrete
         }
 
         private IAttendanceRepository AttendanceRepository => _unitOfWork.GetRepository<IAttendanceRepository>();
+        private IGroupStudentRepository GroupStudentRepository => _unitOfWork.GetRepository<IGroupStudentRepository>();
+        private IStudentCardRepository StudentCardRepository => _unitOfWork.GetRepository<IStudentCardRepository>();
 
         public AttendanceDTO CheckIn(AttendanceCheckInDTO dto)
         {
@@ -48,6 +51,37 @@ namespace Domain.Concrete
         public void RemoveAttendance(Guid attendanceId)
         {
             AttendanceRepository.RemoveAttendance(attendanceId);
+        }
+
+        public IEnumerable<GroupSessionAttendanceDTO> GetGroupSessionAttendance(Guid groupId, Guid sessionId)
+        {
+            var studentIds = GroupStudentRepository.GetStudentIdsByGroupId(groupId);
+            var students = StudentCardRepository.GetByIds(studentIds);
+            var attendances = AttendanceRepository.GetBySession(sessionId);
+
+            var attendanceDict = new Dictionary<Guid, TblAttendance>();
+            foreach (var att in attendances)
+            {
+                if (!attendanceDict.ContainsKey(att.StudentId))
+                    attendanceDict.Add(att.StudentId, att);
+            }
+
+            var result = new List<GroupSessionAttendanceDTO>();
+            foreach (var student in students)
+            {
+                var dto = new GroupSessionAttendanceDTO
+                {
+                    StudentId = student.Id,
+                    StudentCardCode = student.StudentCardCode,
+                    FirstName = student.User.FirstName,
+                    LastName = student.User.LastName,
+                    HasAttended = attendanceDict.TryGetValue(student.Id, out var att),
+                    CheckInTime = att?.CheckInTime
+                };
+                result.Add(dto);
+            }
+
+            return result;
         }
     }
 }
