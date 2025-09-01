@@ -46,6 +46,13 @@ namespace HumanResourceProject.Controllers
             return Ok(result);
         }
 
+        [HttpGet("group/{groupId}/course/{courseId}")]
+        public IActionResult GetGroupCourseAttendance(Guid groupId, Guid courseId)
+        {
+            var result = _attendanceDomain.GetGroupCourseAttendance(groupId, courseId);
+            return Ok(result);
+        }
+
         [HttpGet("session/{sessionId}")]
         public IActionResult GetBySession(Guid sessionId)
         {

@@ -175,5 +175,57 @@ namespace DAL.Concrete
                 })
                 .ToList();
         }
+
+        public IEnumerable<GroupCourseAttendanceSummary> GetGroupCourseAttendance(Guid groupId, Guid courseId)
+        {
+            var now = DateTime.UtcNow;
+
+            var query = from gs in _dbContext.TblGroupStudents
+                        where gs.GroupId == groupId
+                        join scard in _dbContext.TblStudentCards on gs.StudentId equals scard.Id
+                        join u in _dbContext.TblUsers on scard.UserId equals u.Id
+                        join sc in _dbContext.TblSchedules on gs.GroupId equals sc.GroupId
+                        where sc.CourseId == courseId && sc.Status != EntityStatus.Deleted
+                        join c in _dbContext.TblCourses on sc.CourseId equals c.Id
+                        where c.Status != EntityStatus.Deleted
+                        join s in _dbContext.TblSessions.Where(s => s.Status != EntityStatus.Deleted)
+                            on sc.Id equals s.ScheduleId into sess
+                        from s in sess.DefaultIfEmpty()
+                        join a in _dbContext.TblAttendances.Where(a => a.Status != EntityStatus.Deleted)
+                            on new { SessionId = s.Id, StudentId = gs.StudentId } equals new { a.SessionId, a.StudentId } into att
+                        from a in att.DefaultIfEmpty()
+                        select new
+                        {
+                            scard.Id,
+                            scard.StudentCardCode,
+                            u.FirstName,
+                            u.LastName,
+                            SessionDate = (DateTime?)s.Date,
+                            Attended = a != null,
+                            HasSession = s != null
+                        };
+
+            return query
+                .AsEnumerable()
+                .GroupBy(x => new { x.Id, x.StudentCardCode, x.FirstName, x.LastName })
+                .Select(g =>
+                {
+                    var planned = g.Count(x => x.HasSession);
+                    var total = g.Count(x => x.HasSession && x.SessionDate <= now);
+                    var attended = g.Count(x => x.Attended);
+                    return new GroupCourseAttendanceSummary
+                    {
+                        StudentId = g.Key.Id,
+                        StudentCardCode = g.Key.StudentCardCode,
+                        FirstName = g.Key.FirstName,
+                        LastName = g.Key.LastName,
+                        AttendedSessions = attended,
+                        TotalSessions = total,
+                        MissedSessions = total - attended,
+                        TotalPlannedSessions = planned
+                    };
+                })
+                .ToList();
+        }
     }
 }
