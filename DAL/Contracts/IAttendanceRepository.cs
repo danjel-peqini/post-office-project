@@ -15,5 +15,6 @@ namespace DAL.Contracts
         bool HasAttendance(Guid sessionId, Guid studentId);
         int CountAttendances(Guid studentId, IEnumerable<Guid> sessionIds);
         IEnumerable<CourseAttendanceSummary> GetCourseAttendanceByStudent(Guid studentId);
+        IEnumerable<GroupCourseAttendanceSummary> GetGroupCourseAttendance(Guid groupId, Guid courseId);
     }
 }
